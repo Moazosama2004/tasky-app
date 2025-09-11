@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({super.key});
@@ -15,10 +16,10 @@ class WelcomeView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 42,
+                SvgPicture.asset(
+                  'assets/images/logo.svg',
                   width: 42,
+                  height: 42,
                 ),
                 SizedBox(width: 16),
                 Text(
@@ -44,8 +45,8 @@ class WelcomeView extends StatelessWidget {
                     color: Color(0xffFFFCFC),
                   ),
                 ),
-                Image.asset(
-                  'assets/images/wave.png',
+                SvgPicture.asset(
+                  'assets/images/wave_hand.svg',
                   width: 28,
                   height: 28,
                 ),
@@ -61,10 +62,26 @@ class WelcomeView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24),
-            Image.asset(
-              'assets/images/welocme.png',
+            SvgPicture.asset(
+              'assets/images/welcome.svg',
               width: 215,
               height: 200,
+            ),
+            SizedBox(height: 28),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xff15B86C),
+                foregroundColor: Color(0xffFFFCFC),
+                fixedSize: Size(343, 40),
+              ),
+              onPressed: () {},
+              child: Text(
+                'Let’s Get Started',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              ),
             ),
           ],
         ),
