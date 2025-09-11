@@ -11,7 +11,8 @@ class WelcomeView extends StatefulWidget {
 
 class _WelcomeViewState extends State<WelcomeView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
+  final TextEditingController nameController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class _WelcomeViewState extends State<WelcomeView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 16),
+                SizedBox(height: 60),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -98,7 +99,8 @@ class _WelcomeViewState extends State<WelcomeView> {
                       child: TextFormField(
                         controller: nameController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value?.trim().isEmpty ??
+                              false || value == null) {
                             return 'Name is Required to go ';
                           } else {
                             return null;
@@ -146,13 +148,14 @@ class _WelcomeViewState extends State<WelcomeView> {
                     ),
                   ),
                   onPressed: () {
-                    if (formKey.currentState!.validate()) {
+                    if (formKey.currentState?.validate() ?? false) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => HomeView(),
                         ),
                       );
+                      nameController.clear();
                     }
                   },
                   child: Text(
@@ -163,6 +166,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                     ),
                   ),
                 ),
+                SizedBox(height: 20),
               ],
             ),
           ),
