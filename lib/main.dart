@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_app/views/welcome_view.dart';
 
 void main() {
   runApp(TaskyApp());
@@ -10,8 +11,10 @@ class TaskyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Tasky',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: Placeholder()),
+      theme: ThemeData(useMaterial3: true),
+      home: WelcomeView(),
     );
   }
 }
