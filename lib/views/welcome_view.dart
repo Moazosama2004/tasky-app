@@ -68,6 +68,50 @@ class WelcomeView extends StatelessWidget {
               height: 200,
             ),
             SizedBox(height: 28),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Full Name',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      color: Color(0xffFFFCFC),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+
+                  TextField(
+                    style: TextStyle(color: Colors.white),
+                    cursorColor: Colors.white,
+                    decoration: InputDecoration(
+                      hintText: 'e.g. Muaz Osama',
+                      hintStyle: TextStyle(
+                        color: Color(0xff6D6D6D),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      fillColor: Color(0xff282828),
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: Color(0xff15B86C),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 24),
+
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xff15B86C),
