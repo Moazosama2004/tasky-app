@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/views/add_new_task_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -28,6 +29,22 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff181818),
+      floatingActionButton: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xff15B86C),
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNewTaskView()),
+          );
+        },
+        label: Text(
+          'Add New Task',
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: Icon(Icons.add, color: Colors.white),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
