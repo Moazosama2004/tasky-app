@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/views/home_view.dart';
 
 class WelcomeView extends StatefulWidget {
@@ -147,9 +150,16 @@ class _WelcomeViewState extends State<WelcomeView> {
                       40,
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
                     if (formKey.currentState?.validate() ?? false) {
-                      Navigator.push(
+                      await prefs.setBool('isViewed', true);
+                      await prefs.setString(
+                        'username',
+                        nameController.text,
+                      );
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => HomeView(),
