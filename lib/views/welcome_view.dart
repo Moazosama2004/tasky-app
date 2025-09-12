@@ -14,6 +14,7 @@ class WelcomeView extends StatefulWidget {
 
 class _WelcomeViewState extends State<WelcomeView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  // TODO DISPOSE CONTROLLERS
   final TextEditingController nameController =
       TextEditingController();
 
