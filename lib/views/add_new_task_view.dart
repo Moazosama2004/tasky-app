@@ -13,6 +13,8 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
   TextEditingController taskNameController = TextEditingController();
   TextEditingController taskDescriptionController =
       TextEditingController();
+
+  bool isHighPriority = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,13 +47,12 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                 ),
               ),
               SizedBox(height: 8),
-
               TextFormField(
                 controller: taskNameController,
                 validator: (value) {
                   if (value?.trim().isEmpty ??
                       false || value == null) {
-                    return 'Name is Required to go ';
+                    return 'Please Enter Task Name';
                   } else {
                     return null;
                   }
@@ -93,12 +94,12 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
               ),
               SizedBox(height: 8),
               TextFormField(
-                controller: taskNameController,
+                controller: taskDescriptionController,
                 maxLines: 5,
                 validator: (value) {
                   if (value?.trim().isEmpty ??
                       false || value == null) {
-                    return 'Name is Required to go ';
+                    return 'Please Enter Task Description';
                   } else {
                     return null;
                   }
@@ -130,6 +131,30 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                   ),
                 ),
               ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'High Priority',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xffFFFCFC),
+                    ),
+                  ),
+
+                  Switch(
+                    activeTrackColor: Color(0xff15B86C),
+                    value: isHighPriority,
+                    onChanged: (value) {
+                      isHighPriority = value;
+                      setState(() {});
+                    },
+                    // activeThumbColor: Color(0xff15B86C),
+                  ),
+                ],
+              ),
               Spacer(),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
@@ -141,7 +166,9 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                   ),
                 ),
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {}
+                  if (formKey.currentState?.validate() ?? false) {
+                    Navigator.pop(context);
+                  }
                 },
                 label: Text(
                   'Add Task',

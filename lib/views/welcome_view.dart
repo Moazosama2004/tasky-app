@@ -105,7 +105,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                         validator: (value) {
                           if (value?.trim().isEmpty ??
                               false || value == null) {
-                            return 'Name is Required to go ';
+                            return 'Please Enter Your Full Name';
                           } else {
                             return null;
                           }
