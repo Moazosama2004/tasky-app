@@ -29,21 +29,26 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff181818),
-      floatingActionButton: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
+
+      floatingActionButton: SizedBox(
+        height: 44,
+        child: FloatingActionButton.extended(
           backgroundColor: Color(0xff15B86C),
+          foregroundColor: Color(0xffFFFCFC),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(100),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddNewTaskView(),
+              ),
+            );
+          },
+          label: Text('Add New Task'),
+          icon: Icon(Icons.add, color: Color(0xffFFFCFC)),
         ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddNewTaskView()),
-          );
-        },
-        label: Text(
-          'Add New Task',
-          style: TextStyle(color: Colors.white),
-        ),
-        icon: Icon(Icons.add, color: Colors.white),
       ),
       body: SafeArea(
         child: Padding(
@@ -53,6 +58,7 @@ class _HomeViewState extends State<HomeView> {
             top: 16.0,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,6 +108,37 @@ class _HomeViewState extends State<HomeView> {
                       height: 18,
                       width: 18,
                     ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Yuhuu ,Your work Is',
+                    style: TextStyle(
+                      color: Color(0xffFFFCFC),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 32,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'almost done ! ',
+                        style: TextStyle(
+                          color: Color(0xffFFFCFC),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 32,
+                        ),
+                      ),
+                      SvgPicture.asset(
+                        'assets/images/wave_hand.svg',
+                        width: 32,
+                        height: 32,
+                      ),
+                    ],
                   ),
                 ],
               ),
