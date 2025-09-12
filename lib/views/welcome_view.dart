@@ -154,7 +154,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     if (formKey.currentState?.validate() ?? false) {
-                      await prefs.setBool('isViewed', true);
+                      await prefs.setBool('isVisited', true);
                       await prefs.setString(
                         'username',
                         nameController.text,
