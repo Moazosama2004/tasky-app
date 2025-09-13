@@ -176,6 +176,7 @@ class _HomeViewState extends State<HomeView> {
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            SizedBox(width: 8),
                             Checkbox(
                               value: tasks[index].isDone,
                               onChanged: (value) async {
@@ -200,6 +201,7 @@ class _HomeViewState extends State<HomeView> {
                                     BorderRadiusGeometry.circular(4),
                               ),
                             ),
+                            SizedBox(width: 16),
                             Expanded(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -208,6 +210,8 @@ class _HomeViewState extends State<HomeView> {
                                 children: [
                                   Text(
                                     tasks[index].taskName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: tasks[index].isDone
                                           ? Color(0xffA0A0A0)
@@ -224,6 +228,8 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                   Text(
                                     tasks[index].taskDescription,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Color(0xffC6C6C6),
                                       fontSize: 14,
@@ -233,19 +239,28 @@ class _HomeViewState extends State<HomeView> {
                                 ],
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: SvgPicture.asset(
-                                  'assets/images/details.svg',
-                                  height: 24,
-                                  width: 24,
-                                ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: tasks[index].isDone
+                                    ? Color(0xffA0A0A0)
+                                    : Color(0xffFFFCFC),
                               ),
                             ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(
+                            //     right: 16,
+                            //   ),
+                            //   child: GestureDetector(
+                            //     onTap: () {},
+                            //     child: SvgPicture.asset(
+                            //       'assets/images/details.svg',
+                            //       height: 24,
+                            //       width: 24,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
