@@ -46,7 +46,6 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff181818),
-
       floatingActionButton: SizedBox(
         height: 44,
         child: FloatingActionButton.extended(

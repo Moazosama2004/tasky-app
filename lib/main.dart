@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/views/home_view.dart';
+import 'package:tasky_app/views/main_view.dart';
 import 'package:tasky_app/views/welcome_view.dart';
 
 void main() async {
@@ -27,7 +28,7 @@ class TaskyApp extends StatelessWidget {
 
   Widget _navigateTo({required bool isVisited}) {
     if (isVisited) {
-      return HomeView();
+      return MainView();
     }
     return WelcomeView();
   }
