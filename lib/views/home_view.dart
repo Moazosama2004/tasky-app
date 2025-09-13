@@ -16,6 +16,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   String? username = '';
   List<TaskModel> tasks = [];
+  bool isDone = false;
 
   @override
   void initState() {
@@ -176,17 +177,60 @@ class _HomeViewState extends State<HomeView> {
                           // mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Checkbox(
-                              value: true,
-                              onChanged: (value) {},
+                              value: tasks[index].isDone,
+                              onChanged: (value) async {
+                                tasks[index].isDone = value ?? false;
+                                setState(() {});
+                                // TODO change in shared prefrences
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                final tasksEncoded = tasks
+                                    .map(
+                                      (e) => jsonEncode(e.toJson()),
+                                    )
+                                    .toList();
+                                await prefs.setStringList(
+                                  'tasks',
+                                  tasksEncoded,
+                                );
+                              },
+                              activeColor: Color(0xff15B86C),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadiusGeometry.circular(4),
+                              ),
                             ),
                             Expanded(
-                              child: Text(
-                                tasks[index].taskName,
-                                style: TextStyle(
-                                  color: Color(0xffFFFCFC),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    tasks[index].taskName,
+                                    style: TextStyle(
+                                      color: tasks[index].isDone
+                                          ? Color(0xffA0A0A0)
+                                          : Color(0xffFFFCFC),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      decoration: tasks[index].isDone
+                                          ? TextDecoration.lineThrough
+                                          : null,
+                                      decorationColor: Color(
+                                        0xffA0A0A0,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    tasks[index].taskDescription,
+                                    style: TextStyle(
+                                      color: Color(0xffC6C6C6),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Padding(
@@ -203,17 +247,6 @@ class _HomeViewState extends State<HomeView> {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    );
-                    return Card(
-                      child: ListTile(
-                        title: Text('task name : '),
-                        subtitle: Text(
-                          'task name : ${tasks[index].taskDescription}',
-                        ),
-                        trailing: Text(
-                          'task name : ${tasks[index].isHighPriority}',
                         ),
                       ),
                     );
