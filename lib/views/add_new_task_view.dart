@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddNewTaskView extends StatefulWidget {
   const AddNewTaskView({super.key});
@@ -165,8 +168,23 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                     40,
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
+                    List<String>? tasks;
+                    final prefs =
+                        await SharedPreferences.getInstance();
+                    tasks = prefs.getStringList('tasks');
+                    if (tasks == null) {
+                      await prefs.setStringList('tasks', []);
+                    }
+                    final Map<String, dynamic> task = {
+                      'title': taskNameController.text,
+                      'description': taskDescriptionController.text,
+                      'isHighPriority': isHighPriority,
+                    };
+                    final taskEncoded = jsonEncode(task);
+                    tasks!.add(taskEncoded);
+                    await prefs.setStringList('tasks', tasks);
                     Navigator.pop(context);
                   }
                 },

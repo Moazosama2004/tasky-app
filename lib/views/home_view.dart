@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +14,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   String? username = '';
+  List<Map<String, dynamic>> tasks = [];
 
   @override
   void initState() {
@@ -22,6 +25,17 @@ class _HomeViewState extends State<HomeView> {
   Future<void> _loadUserName() async {
     final prefs = await SharedPreferences.getInstance();
     username = prefs.getString('username');
+    _loadTasks(prefs);
+    setState(() {});
+  }
+
+  _loadTasks(SharedPreferences prefs) {
+    if (prefs.getStringList('tasks')?.isNotEmpty ?? false) {
+      for (String taskUncoded in prefs.getStringList('tasks')!) {
+        final taskDecoded = jsonDecode(taskUncoded);
+        tasks.add(taskDecoded);
+      }
+    }
     setState(() {});
   }
 
@@ -141,6 +155,27 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                 ],
+              ),
+
+              SizedBox(height: 100),
+
+              Column(
+                children: List.generate(
+                  tasks.length,
+                  (index) => Card(
+                    child: ListTile(
+                      title: Text(
+                        'task name : ${tasks[index]['title']}',
+                      ),
+                      subtitle: Text(
+                        'task name : ${tasks[index]['description']}',
+                      ),
+                      trailing: Text(
+                        'task name : ${tasks[index]['isHighPriority']}',
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
