@@ -2,13 +2,13 @@ import 'dart:developer';
 
 class TaskModel {
   final String taskName;
-  final String taskDescription;
+  final String? taskDescription;
   final bool isHighPriority;
   bool isDone;
 
   TaskModel({
     required this.taskName,
-    required this.taskDescription,
+    this.taskDescription,
     required this.isHighPriority,
     this.isDone = false,
   });

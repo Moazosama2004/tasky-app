@@ -101,14 +101,14 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
               TextFormField(
                 controller: taskDescriptionController,
                 maxLines: 5,
-                validator: (value) {
-                  if (value?.trim().isEmpty ??
-                      false || value == null) {
-                    return 'Please Enter Task Description';
-                  } else {
-                    return null;
-                  }
-                },
+                // validator: (value) {
+                //   if (value?.trim().isEmpty ??
+                //       false || value == null) {
+                //     return 'Please Enter Task Description';
+                //   } else {
+                //     return null;
+                //   }
+                // },
                 style: TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
@@ -172,9 +172,15 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                 ),
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
+                    log(taskDescriptionController.text);
                     TaskModel taskModel = TaskModel(
                       taskName: taskNameController.text,
-                      taskDescription: taskDescriptionController.text,
+                      taskDescription:
+                          taskDescriptionController.text
+                              .trim()
+                              .isEmpty
+                          ? null
+                          : taskDescriptionController.text,
                       isHighPriority: isHighPriority,
                     );
                     List<String>? tasks;

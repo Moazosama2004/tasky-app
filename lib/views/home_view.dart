@@ -32,13 +32,14 @@ class _HomeViewState extends State<HomeView> {
   }
 
   _loadTasks(SharedPreferences prefs) {
-    if (prefs.getStringList('tasks')?.isNotEmpty ?? false) {
-      for (String taskUncoded in prefs.getStringList('tasks')!) {
-        final taskDecoded = jsonDecode(taskUncoded);
-        tasks.add(TaskModel.fromJson(taskDecoded));
-      }
+    final finalTask = prefs.getStringList('tasks');
+    if (finalTask != null) {
+      final taskAfterDecoded = finalTask
+          .map((e) => TaskModel.fromJson(jsonDecode(e)))
+          .toList();
+      tasks = taskAfterDecoded;
+      setState(() {});
     }
-    setState(() {});
   }
 
   @override
@@ -54,13 +55,16 @@ class _HomeViewState extends State<HomeView> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadiusGeometry.circular(100),
           ),
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+            await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => AddNewTaskView(),
               ),
             );
+            final prefs = await SharedPreferences.getInstance();
+            _loadTasks(prefs);
+            setState(() {});
           },
           label: Text('Add New Task'),
           icon: Icon(Icons.add, color: Color(0xffFFFCFC)),
@@ -205,6 +209,8 @@ class _HomeViewState extends State<HomeView> {
                             Expanded(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
                                 crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                 children: [
@@ -226,14 +232,21 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                     ),
                                   ),
-                                  Text(
-                                    tasks[index].taskDescription,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: Color(0xffC6C6C6),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
+                                  Visibility(
+                                    visible:
+                                        tasks[index]
+                                            .taskDescription !=
+                                        null,
+                                    child: Text(
+                                      tasks[index].taskDescription ??
+                                          '',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Color(0xffC6C6C6),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
                                 ],
