@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/models/task_model.dart';
 
 class AddNewTaskView extends StatefulWidget {
   const AddNewTaskView({super.key});
@@ -170,6 +172,11 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                 ),
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
+                    TaskModel taskModel = TaskModel(
+                      taskName: taskNameController.text,
+                      taskDescription: taskDescriptionController.text,
+                      isHighPriority: isHighPriority,
+                    );
                     List<String>? tasks;
                     final prefs =
                         await SharedPreferences.getInstance();
@@ -177,11 +184,9 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                     if (tasks == null) {
                       await prefs.setStringList('tasks', []);
                     }
-                    final Map<String, dynamic> task = {
-                      'title': taskNameController.text,
-                      'description': taskDescriptionController.text,
-                      'isHighPriority': isHighPriority,
-                    };
+                    final Map<String, dynamic> task = taskModel
+                        .toJson();
+                    log(task.toString());
                     final taskEncoded = jsonEncode(task);
                     tasks!.add(taskEncoded);
                     await prefs.setStringList('tasks', tasks);

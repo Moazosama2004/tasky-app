@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/views/add_new_task_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -14,7 +15,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   String? username = '';
-  List<Map<String, dynamic>> tasks = [];
+  List<TaskModel> tasks = [];
 
   @override
   void initState() {
@@ -33,7 +34,7 @@ class _HomeViewState extends State<HomeView> {
     if (prefs.getStringList('tasks')?.isNotEmpty ?? false) {
       for (String taskUncoded in prefs.getStringList('tasks')!) {
         final taskDecoded = jsonDecode(taskUncoded);
-        tasks.add(taskDecoded);
+        tasks.add(TaskModel.fromJson(taskDecoded));
       }
     }
     setState(() {});
@@ -165,13 +166,13 @@ class _HomeViewState extends State<HomeView> {
                   (index) => Card(
                     child: ListTile(
                       title: Text(
-                        'task name : ${tasks[index]['title']}',
+                        'task name : ${tasks[index].taskName}',
                       ),
                       subtitle: Text(
-                        'task name : ${tasks[index]['description']}',
+                        'task name : ${tasks[index].taskDescription}',
                       ),
                       trailing: Text(
-                        'task name : ${tasks[index]['isHighPriority']}',
+                        'task name : ${tasks[index].isHighPriority}',
                       ),
                     ),
                   ),
