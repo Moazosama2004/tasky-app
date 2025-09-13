@@ -158,24 +158,66 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
 
-              SizedBox(height: 100),
+              SizedBox(height: 20),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Container(
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: Color(0xff282828),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
 
-              Column(
-                children: List.generate(
-                  tasks.length,
-                  (index) => Card(
-                    child: ListTile(
-                      title: Text(
-                        'task name : ${tasks[index].taskName}',
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Checkbox(
+                              value: true,
+                              onChanged: (value) {},
+                            ),
+                            Expanded(
+                              child: Text(
+                                tasks[index].taskName,
+                                style: TextStyle(
+                                  color: Color(0xffFFFCFC),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 16,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: SvgPicture.asset(
+                                  'assets/images/details.svg',
+                                  height: 24,
+                                  width: 24,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      subtitle: Text(
-                        'task name : ${tasks[index].taskDescription}',
+                    );
+                    return Card(
+                      child: ListTile(
+                        title: Text('task name : '),
+                        subtitle: Text(
+                          'task name : ${tasks[index].taskDescription}',
+                        ),
+                        trailing: Text(
+                          'task name : ${tasks[index].isHighPriority}',
+                        ),
                       ),
-                      trailing: Text(
-                        'task name : ${tasks[index].isHighPriority}',
-                      ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
             ],
