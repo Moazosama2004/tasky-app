@@ -9,7 +9,7 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   bool isVisited = prefs.getBool('isVisited') ?? false;
   // await prefs.remove('tasks');
-  prefs.clear();
+  // prefs.clear();
   // print("tasks: ${prefs.getString('tasks')}");
   runApp(TaskyApp(isVisited: isVisited));
 }
