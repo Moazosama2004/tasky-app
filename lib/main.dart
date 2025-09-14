@@ -25,6 +25,36 @@ class TaskyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xff181818),
+        switchTheme: SwitchThemeData(
+          trackColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Color(0xff15B86C);
+            }
+            return Colors.white;
+          }),
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Colors.white;
+            }
+            return Colors.grey;
+          }),
+          trackOutlineColor: WidgetStateProperty.resolveWith((
+            states,
+          ) {
+            if (states.contains(WidgetState.selected)) {
+              return Colors.transparent;
+            }
+            return Colors.grey;
+          }),
+          trackOutlineWidth: WidgetStateProperty.resolveWith((
+            states,
+          ) {
+            if (states.contains(WidgetState.selected)) {
+              return 0;
+            }
+            return 2;
+          }),
+        ),
         appBarTheme: AppBarTheme(
           iconTheme: IconThemeData(color: Color(0xffFFFCFC)),
           titleTextStyle: TextStyle(

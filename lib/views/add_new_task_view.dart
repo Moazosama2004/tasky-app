@@ -133,13 +133,11 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                   ),
 
                   Switch(
-                    activeTrackColor: Color(0xff15B86C),
                     value: isHighPriority,
                     onChanged: (value) {
                       isHighPriority = value;
                       setState(() {});
                     },
-                    // activeThumbColor: Color(0xff15B86C),
                   ),
                 ],
               ),

@@ -13,6 +13,8 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   late final String? username;
+  bool isLoading = true;
+  bool isDarkMode = true;
   @override
   void initState() {
     super.initState();
@@ -22,7 +24,9 @@ class _ProfileViewState extends State<ProfileView> {
   _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     username = prefs.getString('username');
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -32,56 +36,19 @@ class _ProfileViewState extends State<ProfileView> {
         horizontal: 16,
         vertical: 16,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              'My Profile',
-              style: TextStyle(
-                color: Color(0xffFFFCFC),
-                fontWeight: FontWeight.w400,
-                fontSize: 20,
+      child: isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Color(0xff15B86C),
               ),
-            ),
-          ),
-          SizedBox(height: 16),
-          Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 42.5,
-                      backgroundImage: AssetImage(
-                        'assets/images/profile_avatar.png',
-                      ),
-                    ),
-
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: GestureDetector(
-                        onTap: () {
-                          log('CLICKED');
-                        },
-                        child: CircleAvatar(
-                          radius: 17,
-                          backgroundColor: Color(0xff282828),
-                          child: SvgPicture.asset(
-                            'assets/images/camera.svg',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.only(top: 8),
                   child: Text(
-                    username ?? '',
+                    'My Profile',
                     style: TextStyle(
                       color: Color(0xffFFFCFC),
                       fontWeight: FontWeight.w400,
@@ -89,62 +56,163 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ),
                 ),
-                Text(
-                  'One task at a time. One step closer.',
-                  style: TextStyle(
-                    color: Color(0xffC6C6C6),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
+                SizedBox(height: 16),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 42.5,
+                            backgroundImage: AssetImage(
+                              'assets/images/profile_avatar.png',
+                            ),
+                          ),
+
+                          Positioned(
+                            right: 0,
+                            bottom: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                log('CLICKED');
+                              },
+                              child: CircleAvatar(
+                                radius: 17,
+                                backgroundColor: Color(0xff282828),
+                                child: SvgPicture.asset(
+                                  'assets/images/camera.svg',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          username ?? '',
+                          style: TextStyle(
+                            color: Color(0xffFFFCFC),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'One task at a time. One step closer.',
+                        style: TextStyle(
+                          color: Color(0xffC6C6C6),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                SizedBox(height: 24),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Profile Info',
+                      style: TextStyle(
+                        color: Color(0xffFFFCFC),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    ListTile(
+                      onTap: () {},
+                      contentPadding: EdgeInsets.zero,
+                      leading: SvgPicture.asset(
+                        'assets/images/profile.svg',
+                        colorFilter: ColorFilter.mode(
+                          Color(0xffFFFCFC),
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Color(0xffC6C6C6),
+                        ),
+                      ),
+                      title: Text(
+                        'User Details',
+                        style: TextStyle(
+                          color: Color(0xffFFFCFC),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Divider(color: Color(0xff6E6E6E)),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: SvgPicture.asset(
+                        'assets/images/moon.svg',
+                        colorFilter: ColorFilter.mode(
+                          Color(0xffFFFCFC),
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                      trailing: Switch(
+                        value: isDarkMode,
+                        onChanged: (value) {
+                          // TODO : IMPLEMENT DARK MODE
+                          isDarkMode = value;
+                          setState(() {});
+                        },
+                      ),
+                      title: Text(
+                        'Dark Mode',
+                        style: TextStyle(
+                          color: Color(0xffFFFCFC),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Divider(color: Color(0xff6E6E6E)),
+                    ListTile(
+                      onTap: () {
+                        // TODO : IMPLEMENT LOGOUT
+                      },
+                      contentPadding: EdgeInsets.zero,
+                      leading: SvgPicture.asset(
+                        'assets/images/logout.svg',
+                        colorFilter: ColorFilter.mode(
+                          Color(0xffFFFCFC),
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Color(0xffC6C6C6),
+                        ),
+                      ),
+                      title: Text(
+                        'Log Out',
+                        style: TextStyle(
+                          color: Color(0xffFFFCFC),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          SizedBox(height: 24),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Profile Info',
-                style: TextStyle(
-                  color: Color(0xffFFFCFC),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(height: 8),
-              ListTile(
-                onTap: () {},
-                contentPadding: EdgeInsets.zero,
-                leading: SvgPicture.asset(
-                  'assets/images/profile.svg',
-                  colorFilter: ColorFilter.mode(
-                    Color(0xffFFFCFC),
-                    BlendMode.srcIn,
-                  ),
-                ),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.arrow_forward,
-                    color: Color(0xffC6C6C6),
-                  ),
-                ),
-                title: Text(
-                  'User Details',
-                  style: TextStyle(
-                    color: Color(0xffFFFCFC),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
-              Divider(color: Color(0xff6E6E6E)),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }
