@@ -196,7 +196,7 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                     final taskEncoded = jsonEncode(task);
                     tasks!.add(taskEncoded);
                     await prefs.setStringList('tasks', tasks);
-                    Navigator.pop(context);
+                    Navigator.pop(context, true);
                   }
                 },
                 label: Text(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/views/home_view.dart';
+import 'package:tasky_app/views/main_view.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});
@@ -163,7 +164,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeView(),
+                          builder: (context) => MainView(),
                         ),
                       );
                       nameController.clear();

@@ -22,16 +22,17 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _loadUserName();
+    _loadTasks();
   }
 
   Future<void> _loadUserName() async {
     final prefs = await SharedPreferences.getInstance();
     username = prefs.getString('username');
-    _loadTasks(prefs);
     setState(() {});
   }
 
-  _loadTasks(SharedPreferences prefs) {
+  _loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
     final finalTask = prefs.getStringList('tasks');
     if (finalTask != null) {
       final taskAfterDecoded = finalTask
@@ -55,15 +56,15 @@ class _HomeViewState extends State<HomeView> {
             borderRadius: BorderRadiusGeometry.circular(100),
           ),
           onPressed: () async {
-            await Navigator.push(
+            final bool? result = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => AddNewTaskView(),
               ),
             );
-            final prefs = await SharedPreferences.getInstance();
-            _loadTasks(prefs);
-            setState(() {});
+            if (result != null && result) {
+              _loadTasks();
+            }
           },
           label: Text('Add New Task'),
           icon: Icon(Icons.add, color: Color(0xffFFFCFC)),
@@ -164,121 +165,148 @@ class _HomeViewState extends State<HomeView> {
 
               SizedBox(height: 20),
               Expanded(
-                child: ListView.builder(
-                  itemCount: tasks.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Container(
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: Color(0xff282828),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(width: 8),
-                            Checkbox(
-                              value: tasks[index].isDone,
-                              onChanged: (value) async {
-                                tasks[index].isDone = value ?? false;
-                                setState(() {});
-                                // TODO change in shared prefrences
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                final tasksEncoded = tasks
-                                    .map(
-                                      (e) => jsonEncode(e.toJson()),
-                                    )
-                                    .toList();
-                                await prefs.setStringList(
-                                  'tasks',
-                                  tasksEncoded,
-                                );
-                              },
-                              activeColor: Color(0xff15B86C),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadiusGeometry.circular(4),
+                child: tasks.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: tasks.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Container(
+                              height: 56,
+                              decoration: BoxDecoration(
+                                color: Color(0xff282828),
+                                borderRadius: BorderRadius.circular(
+                                  20,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    tasks[index].taskName,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                  SizedBox(width: 8),
+                                  Checkbox(
+                                    value: tasks[index].isDone,
+                                    onChanged: (value) async {
+                                      tasks[index].isDone =
+                                          value ?? false;
+                                      setState(() {});
+                                      // TODO change in shared prefrences
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      final tasksEncoded = tasks
+                                          .map(
+                                            (e) => jsonEncode(
+                                              e.toJson(),
+                                            ),
+                                          )
+                                          .toList();
+                                      await prefs.setStringList(
+                                        'tasks',
+                                        tasksEncoded,
+                                      );
+                                    },
+                                    activeColor: Color(0xff15B86C),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(
+                                            4,
+                                          ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          tasks[index].taskName,
+                                          maxLines: 1,
+                                          overflow:
+                                              TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: tasks[index].isDone
+                                                ? Color(0xffA0A0A0)
+                                                : Color(0xffFFFCFC),
+                                            fontSize: 16,
+                                            fontWeight:
+                                                FontWeight.w400,
+                                            decoration:
+                                                tasks[index].isDone
+                                                ? TextDecoration
+                                                      .lineThrough
+                                                : null,
+                                            decorationColor: Color(
+                                              0xffA0A0A0,
+                                            ),
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible:
+                                              tasks[index]
+                                                  .taskDescription !=
+                                              null,
+                                          child: Text(
+                                            tasks[index]
+                                                    .taskDescription ??
+                                                '',
+                                            maxLines: 1,
+                                            overflow:
+                                                TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Color(
+                                                0xffC6C6C6,
+                                              ),
+                                              fontSize: 14,
+                                              fontWeight:
+                                                  FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.more_vert,
                                       color: tasks[index].isDone
                                           ? Color(0xffA0A0A0)
                                           : Color(0xffFFFCFC),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      decoration: tasks[index].isDone
-                                          ? TextDecoration.lineThrough
-                                          : null,
-                                      decorationColor: Color(
-                                        0xffA0A0A0,
-                                      ),
                                     ),
                                   ),
-                                  Visibility(
-                                    visible:
-                                        tasks[index]
-                                            .taskDescription !=
-                                        null,
-                                    child: Text(
-                                      tasks[index].taskDescription ??
-                                          '',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Color(0xffC6C6C6),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(
+                                  //     right: 16,
+                                  //   ),
+                                  //   child: GestureDetector(
+                                  //     onTap: () {},
+                                  //     child: SvgPicture.asset(
+                                  //       'assets/images/details.svg',
+                                  //       height: 24,
+                                  //       width: 24,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.more_vert,
-                                color: tasks[index].isDone
-                                    ? Color(0xffA0A0A0)
-                                    : Color(0xffFFFCFC),
-                              ),
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(
-                            //     right: 16,
-                            //   ),
-                            //   child: GestureDetector(
-                            //     onTap: () {},
-                            //     child: SvgPicture.asset(
-                            //       'assets/images/details.svg',
-                            //       height: 24,
-                            //       width: 24,
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          'No Data',
+                          style: TextStyle(
+                            color: Color(0xffFFFCFC),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
-                    );
-                  },
-                ),
               ),
             ],
           ),
