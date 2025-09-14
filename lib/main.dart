@@ -22,8 +22,18 @@ class TaskyApp extends StatelessWidget {
       title: 'Tasky',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: true,
         scaffoldBackgroundColor: Color(0xff181818),
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(color: Color(0xffFFFCFC)),
+          titleTextStyle: TextStyle(
+            color: Color(0xffFFFCFC),
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          ),
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+        ),
+        useMaterial3: true,
       ),
       home: _navigateTo(isVisited: isVisited),
     );

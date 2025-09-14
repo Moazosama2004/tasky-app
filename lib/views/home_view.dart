@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/views/add_new_task_view.dart';
+import 'package:tasky_app/widgets/tasks_list_view_builder.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -161,134 +162,21 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ],
               ),
-
               SizedBox(height: 20),
               Expanded(
-                child: tasks.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: tasks.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Container(
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: Color(0xff282828),
-                                borderRadius: BorderRadius.circular(
-                                  20,
-                                ),
-                              ),
-
-                              child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(width: 8),
-                                  Checkbox(
-                                    value: tasks[index].isDone,
-                                    onChanged: (value) async {
-                                      tasks[index].isDone =
-                                          value ?? false;
-                                      setState(() {});
-                                      // TODO change in shared prefrences
-                                      final prefs =
-                                          await SharedPreferences.getInstance();
-                                      final tasksEncoded = tasks
-                                          .map(
-                                            (e) => jsonEncode(
-                                              e.toJson(),
-                                            ),
-                                          )
-                                          .toList();
-                                      await prefs.setStringList(
-                                        'tasks',
-                                        tasksEncoded,
-                                      );
-                                    },
-                                    activeColor: Color(0xff15B86C),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusGeometry.circular(
-                                            4,
-                                          ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          tasks[index].taskName,
-                                          maxLines: 1,
-                                          overflow:
-                                              TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: tasks[index].isDone
-                                                ? Color(0xffA0A0A0)
-                                                : Color(0xffFFFCFC),
-                                            fontSize: 16,
-                                            fontWeight:
-                                                FontWeight.w400,
-                                            decoration:
-                                                tasks[index].isDone
-                                                ? TextDecoration
-                                                      .lineThrough
-                                                : null,
-                                            decorationColor: Color(
-                                              0xffA0A0A0,
-                                            ),
-                                          ),
-                                        ),
-                                        if (tasks[index]
-                                                .taskDescription !=
-                                            null)
-                                          Text(
-                                            tasks[index]
-                                                .taskDescription!,
-                                            maxLines: 1,
-                                            overflow:
-                                                TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Color(
-                                                0xffC6C6C6,
-                                              ),
-                                              fontSize: 14,
-                                              fontWeight:
-                                                  FontWeight.w400,
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.more_vert,
-                                      color: tasks[index].isDone
-                                          ? Color(0xffA0A0A0)
-                                          : Color(0xffFFFCFC),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Text(
-                          'No Data',
-                          style: TextStyle(
-                            color: Color(0xffFFFCFC),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
+                child: TasksListViewBuilder(
+                  tasks: tasks,
+                  onChanged: (value, index) async {
+                    tasks[index!].isDone = value ?? false;
+                    final prefs =
+                        await SharedPreferences.getInstance();
+                    setState(() {});
+                    final tasksEncoded = tasks
+                        .map((e) => jsonEncode(e.toJson()))
+                        .toList();
+                    await prefs.setStringList('tasks', tasksEncoded);
+                  },
+                ),
               ),
             ],
           ),

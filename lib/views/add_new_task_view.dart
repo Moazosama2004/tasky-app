@@ -23,15 +23,7 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Color(0xffFFFCFC)),
-        title: Text(
-          'New Task',
-          style: TextStyle(color: Color(0xffFFFCFC)),
-        ),
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: AppBar(title: Text('New Task')),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 16.0,
