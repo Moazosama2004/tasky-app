@@ -8,7 +8,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   bool isVisited = prefs.getBool('isVisited') ?? false;
-  // prefs.clear();
+  // await prefs.remove('tasks');
+  prefs.clear();
+  // print("tasks: ${prefs.getString('tasks')}");
   runApp(TaskyApp(isVisited: isVisited));
 }
 

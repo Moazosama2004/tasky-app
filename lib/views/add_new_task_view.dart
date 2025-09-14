@@ -92,14 +92,6 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
               TextFormField(
                 controller: taskDescriptionController,
                 maxLines: 5,
-                // validator: (value) {
-                //   if (value?.trim().isEmpty ??
-                //       false || value == null) {
-                //     return 'Please Enter Task Description';
-                //   } else {
-                //     return null;
-                //   }
-                // },
                 style: TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
@@ -163,8 +155,20 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                 ),
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
-                    log(taskDescriptionController.text);
+                    // log(taskDescriptionController.text);
+                    final prefs =
+                        await SharedPreferences.getInstance();
+
+                    final tasksJson = prefs.getString('tasks');
+
+                    List<dynamic> listTasks = [];
+
+                    if (tasksJson != null) {
+                      listTasks = jsonDecode(tasksJson);
+                    }
+
                     TaskModel taskModel = TaskModel(
+                      id: listTasks.length + 1,
                       taskName: taskNameController.text,
                       taskDescription:
                           taskDescriptionController.text
@@ -174,19 +178,12 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                           : taskDescriptionController.text,
                       isHighPriority: isHighPriority,
                     );
-                    List<String>? tasks;
-                    final prefs =
-                        await SharedPreferences.getInstance();
-                    tasks = prefs.getStringList('tasks');
-                    if (tasks == null) {
-                      await prefs.setStringList('tasks', []);
-                    }
-                    final Map<String, dynamic> task = taskModel
-                        .toJson();
-                    log(task.toString());
-                    final taskEncoded = jsonEncode(task);
-                    tasks!.add(taskEncoded);
-                    await prefs.setStringList('tasks', tasks);
+
+                    listTasks.add(taskModel.toJson());
+
+                    final tasksEncoded = jsonEncode(listTasks);
+
+                    await prefs.setString('tasks', tasksEncoded);
                     Navigator.pop(context, true);
                   }
                 },

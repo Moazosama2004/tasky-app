@@ -34,12 +34,13 @@ class _HomeViewState extends State<HomeView> {
 
   _loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
-    final finalTask = prefs.getStringList('tasks');
+    final finalTask = prefs.getString('tasks');
     if (finalTask != null) {
-      final taskAfterDecoded = finalTask
-          .map((e) => TaskModel.fromJson(jsonDecode(e)))
+      final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
+
+      tasks = taskAfterDecoded
+          .map((e) => TaskModel.fromJson(e))
           .toList();
-      tasks = taskAfterDecoded;
       setState(() {});
     }
   }
@@ -171,10 +172,11 @@ class _HomeViewState extends State<HomeView> {
                     final prefs =
                         await SharedPreferences.getInstance();
                     setState(() {});
-                    final tasksEncoded = tasks
-                        .map((e) => jsonEncode(e.toJson()))
+                    final tasksJson = tasks
+                        .map((e) => e.toJson())
                         .toList();
-                    await prefs.setStringList('tasks', tasksEncoded);
+                    final tasksEncoded = jsonEncode(tasksJson);
+                    await prefs.setString('tasks', tasksEncoded);
                   },
                 ),
               ),

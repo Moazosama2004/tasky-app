@@ -22,12 +22,13 @@ class _TodoTasksViewState extends State<TodoTasksView> {
 
   _loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
-    final finalTask = prefs.getStringList('tasks');
+    final finalTask = prefs.getString('tasks');
     if (finalTask != null) {
-      tasks = finalTask.map((e) {
-        return TaskModel.fromJson(jsonDecode(e));
-      }).toList();
-      tasks = tasks.where((e) => e.isDone == false).toList();
+      final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
+      tasks = taskAfterDecoded
+          .map((e) => TaskModel.fromJson(e))
+          .where((e) => e.isDone == false)
+          .toList();
       setState(() {});
     }
   }
@@ -43,12 +44,25 @@ class _TodoTasksViewState extends State<TodoTasksView> {
           onChanged: (value, index) async {
             tasks[index!].isDone = value ?? false;
             final prefs = await SharedPreferences.getInstance();
-            setState(() {});
-            final tasksEncoded = tasks
-                .map((e) => jsonEncode(e.toJson()))
-                .toList();
-            await prefs.setStringList('tasks', tasksEncoded);
-            _loadTasks();
+
+            final fullTasks = prefs.getString('tasks');
+
+            if (fullTasks != null) {
+              List<TaskModel> fullTasksList =
+                  (jsonDecode(fullTasks) as List<dynamic>)
+                      .map((e) => TaskModel.fromJson(e))
+                      .toList();
+              final int comparingIndex = fullTasksList.indexWhere(
+                (e) => e.id == tasks[index].id,
+              );
+              fullTasksList[comparingIndex] = tasks[index];
+              await prefs.setString(
+                'tasks',
+                jsonEncode(fullTasksList),
+              );
+              _loadTasks();
+              setState(() {});
+            }
           },
         ),
       ),

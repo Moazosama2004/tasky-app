@@ -1,18 +1,72 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class CompletedTasksView extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/models/task_model.dart';
+import 'package:tasky_app/widgets/tasks_list_view_builder.dart';
+
+class CompletedTasksView extends StatefulWidget {
   const CompletedTasksView({super.key});
+
+  @override
+  State<CompletedTasksView> createState() =>
+      _CompletedTasksViewState();
+}
+
+class _CompletedTasksViewState extends State<CompletedTasksView> {
+  List<TaskModel> tasks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTasks();
+  }
+
+  _loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final finalTask = prefs.getString('tasks');
+    if (finalTask != null) {
+      final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
+      tasks = taskAfterDecoded
+          .map((e) => TaskModel.fromJson(e))
+          .where((e) => e.isDone == true)
+          .toList();
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Color(0xffFFFCFC)),
-        title: Text(
-          'CompletedTasksView',
-          style: TextStyle(color: Color(0xffFFFCFC)),
+      appBar: AppBar(title: Text('Completed Tasks')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: TasksListViewBuilder(
+          tasks: tasks,
+          onChanged: (value, index) async {
+            tasks[index!].isDone = value ?? false;
+            final prefs = await SharedPreferences.getInstance();
+
+            final fullTasks = prefs.getString('tasks');
+
+            if (fullTasks != null) {
+              List<TaskModel> fullTasksList =
+                  (jsonDecode(fullTasks) as List<dynamic>)
+                      .map((e) => TaskModel.fromJson(e))
+                      .toList();
+              final int comparingIndex = fullTasksList.indexWhere(
+                (e) => e.id == tasks[index].id,
+              );
+              fullTasksList[comparingIndex] = tasks[index];
+              await prefs.setString(
+                'tasks',
+                jsonEncode(fullTasksList),
+              );
+              _loadTasks();
+              setState(() {});
+            }
+          },
         ),
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
       ),
     );
   }
