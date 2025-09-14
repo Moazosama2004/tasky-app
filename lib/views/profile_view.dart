@@ -113,38 +113,9 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
               SizedBox(height: 8),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/profile.svg',
-                    colorFilter: ColorFilter.mode(
-                      Color(0xffFFFCFC),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Text(
-                      'User Details',
-                      style: TextStyle(
-                        color: Color(0xffFFFCFC),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.arrow_forward,
-                      color: Color(0xffC6C6C6),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: 16),
-              Divider(color: Color(0xff6E6E6E)),
               ListTile(
+                onTap: () {},
+                contentPadding: EdgeInsets.zero,
                 leading: SvgPicture.asset(
                   'assets/images/profile.svg',
                   colorFilter: ColorFilter.mode(
@@ -168,6 +139,8 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
               ),
+              SizedBox(width: 16),
+              Divider(color: Color(0xff6E6E6E)),
             ],
           ),
         ],
