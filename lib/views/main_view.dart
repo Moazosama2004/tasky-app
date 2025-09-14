@@ -75,7 +75,7 @@ class _MainViewState extends State<MainView> {
           ),
         ],
       ),
-      body: views[currentIndex],
+      body: SafeArea(child: views[currentIndex]),
     );
   }
 }

@@ -35,37 +35,52 @@ class _TodoTasksViewState extends State<TodoTasksView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('To Do Tasks')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: TasksListViewBuilder(
-          tasks: tasks,
-          onChanged: (value, index) async {
-            tasks[index!].isDone = value ?? false;
-            final prefs = await SharedPreferences.getInstance();
-
-            final fullTasks = prefs.getString('tasks');
-
-            if (fullTasks != null) {
-              List<TaskModel> fullTasksList =
-                  (jsonDecode(fullTasks) as List<dynamic>)
-                      .map((e) => TaskModel.fromJson(e))
-                      .toList();
-              final int comparingIndex = fullTasksList.indexWhere(
-                (e) => e.id == tasks[index].id,
-              );
-              fullTasksList[comparingIndex] = tasks[index];
-              await prefs.setString(
-                'tasks',
-                jsonEncode(fullTasksList),
-              );
-              _loadTasks();
-              setState(() {});
-            }
-          },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Text(
+            'To Do Tasks',
+            style: TextStyle(
+              color: Color(0xffFFFCFC),
+              fontWeight: FontWeight.w400,
+              fontSize: 20,
+            ),
+          ),
         ),
-      ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: TasksListViewBuilder(
+              tasks: tasks,
+              onChanged: (value, index) async {
+                tasks[index!].isDone = value ?? false;
+                final prefs = await SharedPreferences.getInstance();
+
+                final fullTasks = prefs.getString('tasks');
+
+                if (fullTasks != null) {
+                  List<TaskModel> fullTasksList =
+                      (jsonDecode(fullTasks) as List<dynamic>)
+                          .map((e) => TaskModel.fromJson(e))
+                          .toList();
+                  final int comparingIndex = fullTasksList.indexWhere(
+                    (e) => e.id == tasks[index].id,
+                  );
+                  fullTasksList[comparingIndex] = tasks[index];
+                  await prefs.setString(
+                    'tasks',
+                    jsonEncode(fullTasksList),
+                  );
+                  _loadTasks();
+                  setState(() {});
+                }
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
