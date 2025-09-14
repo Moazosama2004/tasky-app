@@ -12,7 +12,7 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  String username = '';
+  late final String? username;
   @override
   void initState() {
     super.initState();
@@ -21,84 +21,88 @@ class _ProfileViewState extends State<ProfileView> {
 
   _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    username = prefs.getString('username') ?? '';
+    username = prefs.getString('username');
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'My Profile',
-            style: TextStyle(
-              color: Color(0xffFFFCFC),
-              fontWeight: FontWeight.w400,
-              fontSize: 20,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 16,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              'My Profile',
+              style: TextStyle(
+                color: Color(0xffFFFCFC),
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 16),
-        Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 42.5,
-                    backgroundImage: AssetImage(
-                      'assets/images/profile_avatar.png',
+          SizedBox(height: 16),
+          Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 42.5,
+                      backgroundImage: AssetImage(
+                        'assets/images/profile_avatar.png',
+                      ),
                     ),
-                  ),
 
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        log('CLICKED');
-                      },
-                      child: CircleAvatar(
-                        radius: 17,
-                        backgroundColor: Color(0xff282828),
-                        child: SvgPicture.asset(
-                          'assets/images/camera.svg',
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          log('CLICKED');
+                        },
+                        child: CircleAvatar(
+                          radius: 17,
+                          backgroundColor: Color(0xff282828),
+                          child: SvgPicture.asset(
+                            'assets/images/camera.svg',
+                          ),
                         ),
                       ),
                     ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    username ?? '',
+                    style: TextStyle(
+                      color: Color(0xffFFFCFC),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
                   ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  username,
+                ),
+                Text(
+                  'One task at a time. One step closer.',
                   style: TextStyle(
-                    color: Color(0xffFFFCFC),
+                    color: Color(0xffC6C6C6),
                     fontWeight: FontWeight.w400,
-                    fontSize: 20,
+                    fontSize: 14,
                   ),
                 ),
-              ),
-              Text(
-                'One task at a time. One step closer.',
-                style: TextStyle(
-                  color: Color(0xffC6C6C6),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 24),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
+          SizedBox(height: 24),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Profile Info',
@@ -108,10 +112,66 @@ class _ProfileViewState extends State<ProfileView> {
                   fontSize: 20,
                 ),
               ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/profile.svg',
+                    colorFilter: ColorFilter.mode(
+                      Color(0xffFFFCFC),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      'User Details',
+                      style: TextStyle(
+                        color: Color(0xffFFFCFC),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.arrow_forward,
+                      color: Color(0xffC6C6C6),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 16),
+              Divider(color: Color(0xff6E6E6E)),
+              ListTile(
+                leading: SvgPicture.asset(
+                  'assets/images/profile.svg',
+                  colorFilter: ColorFilter.mode(
+                    Color(0xffFFFCFC),
+                    BlendMode.srcIn,
+                  ),
+                ),
+                trailing: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.arrow_forward,
+                    color: Color(0xffC6C6C6),
+                  ),
+                ),
+                title: Text(
+                  'User Details',
+                  style: TextStyle(
+                    color: Color(0xffFFFCFC),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
