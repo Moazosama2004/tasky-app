@@ -46,7 +46,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff181818),
       floatingActionButton: SizedBox(
         height: 44,
         child: FloatingActionButton.extended(
@@ -244,15 +243,12 @@ class _HomeViewState extends State<HomeView> {
                                             ),
                                           ),
                                         ),
-                                        Visibility(
-                                          visible:
-                                              tasks[index]
-                                                  .taskDescription !=
-                                              null,
-                                          child: Text(
+                                        if (tasks[index]
+                                                .taskDescription !=
+                                            null)
+                                          Text(
                                             tasks[index]
-                                                    .taskDescription ??
-                                                '',
+                                                .taskDescription!,
                                             maxLines: 1,
                                             overflow:
                                                 TextOverflow.ellipsis,
@@ -265,7 +261,6 @@ class _HomeViewState extends State<HomeView> {
                                                   FontWeight.w400,
                                             ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -278,19 +273,6 @@ class _HomeViewState extends State<HomeView> {
                                           : Color(0xffFFFCFC),
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(
-                                  //     right: 16,
-                                  //   ),
-                                  //   child: GestureDetector(
-                                  //     onTap: () {},
-                                  //     child: SvgPicture.asset(
-                                  //       'assets/images/details.svg',
-                                  //       height: 24,
-                                  //       width: 24,
-                                  //     ),
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
