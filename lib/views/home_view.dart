@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/views/add_new_task_view.dart';
+import 'package:tasky_app/widgets/archieved_tasks.dart';
+import 'package:tasky_app/widgets/high_priority_tasks.dart';
 import 'package:tasky_app/widgets/tasks_list_view_builder.dart';
 
 class HomeView extends StatefulWidget {
@@ -22,6 +24,7 @@ class _HomeViewState extends State<HomeView> {
   int totalTasks = 0;
   int doneTasks = 0;
   double percentage = 0;
+  // List<TaskModel> highPriorityTasks = [];
 
   @override
   void initState() {
@@ -44,6 +47,10 @@ class _HomeViewState extends State<HomeView> {
       tasks = taskAfterDecoded
           .map((e) => TaskModel.fromJson(e))
           .toList();
+
+      // highPriorityTasks = tasks
+      // .where((e) => e.isHighPriority)
+      // .toList();
 
       _calcPercentage();
 
@@ -176,74 +183,35 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
               SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color(0XFF282828),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                padding: EdgeInsets.all(16),
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Achieved Tasks',
-                          style: TextStyle(
-                            color: Color(0xffFFFCFC),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          '$doneTasks Out of $totalTasks Done',
-                          style: TextStyle(
-                            color: Color(0xffC6C6C6),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Text(
-                          '${(percentage * 100).toInt()}%',
-                          style: TextStyle(
-                            color: Color(0xffFFFCFC),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                          ),
-                        ),
-                        Transform.rotate(
-                          angle: -pi / 2,
-                          child: SizedBox(
-                            height: 48,
-                            width: 48,
-                            child: CircularProgressIndicator(
-                              value: percentage,
-                              strokeWidth: 4,
-                              strokeCap: StrokeCap.round,
-                              // strokeAlign: 4,
-                              backgroundColor: Color(0xff6d6d6d),
-                              semanticsValue: '2',
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(
-                                    Color(0xff15B86C),
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              ArchievedTasks(
+                doneTasks: doneTasks,
+                totalTasks: totalTasks,
+                percentage: percentage,
               ),
               SizedBox(height: 8),
+              HighPriorityTasks(
+                tasks: tasks,
+                onChanged: (value, index) async {
+                  tasks[index!].isDone = value ?? false;
+                  _calcPercentage();
+                  final prefs = await SharedPreferences.getInstance();
+                  setState(() {});
+                  final tasksJson = tasks
+                      .map((e) => e.toJson())
+                      .toList();
+                  final tasksEncoded = jsonEncode(tasksJson);
+                  await prefs.setString('tasks', tasksEncoded);
+                },
+              ),
+              SizedBox(height: 24),
+              Text(
+                'My Tasks',
+                style: TextStyle(
+                  color: Color(0xffFFFCFC),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                ),
+              ),
               Expanded(
                 child: TasksListViewBuilder(
                   tasks: tasks,

@@ -13,6 +13,7 @@ class TasksListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.only(bottom: 56),
       itemCount: tasks.length,
       itemBuilder: (context, index) {
         return Padding(
