@@ -1,14 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:tasky_app/models/task_model.dart';
+import 'package:tasky_app/views/high_priority_view.dart';
 
 class HighPriorityTasks extends StatelessWidget {
   const HighPriorityTasks({
     super.key,
     required this.tasks,
     required this.onChanged,
+    required this.refresh,
   });
   final List<TaskModel> tasks;
   final Function(bool? value, int? index) onChanged;
+  final Function refresh;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +44,7 @@ class HighPriorityTasks extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    ...tasks
+                    ...tasks.reversed
                         .where((e) => e.isHighPriority)
                         .take(4)
                         .map((element) {
@@ -100,7 +105,16 @@ class HighPriorityTasks extends StatelessWidget {
                     radius: 19,
                     backgroundColor: Color(0xff282828),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HighPriorityView(),
+                          ),
+                        );
+                        log(" result => $result");
+                        refresh();
+                      },
                       icon: Icon(
                         Icons.arrow_outward,
                         color: Color(0xffC6C6C6),

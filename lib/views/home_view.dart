@@ -191,16 +191,11 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(height: 8),
               HighPriorityTasks(
                 tasks: tasks,
-                onChanged: (value, index) async {
-                  tasks[index!].isDone = value ?? false;
-                  _calcPercentage();
-                  final prefs = await SharedPreferences.getInstance();
-                  setState(() {});
-                  final tasksJson = tasks
-                      .map((e) => e.toJson())
-                      .toList();
-                  final tasksEncoded = jsonEncode(tasksJson);
-                  await prefs.setString('tasks', tasksEncoded);
+                onChanged: (value, index) {
+                  _checkBoxDoneTask(index, value);
+                },
+                refresh: () {
+                  _loadTasks();
                 },
               ),
               SizedBox(height: 24),
@@ -215,17 +210,8 @@ class _HomeViewState extends State<HomeView> {
               Expanded(
                 child: TasksListViewBuilder(
                   tasks: tasks,
-                  onChanged: (value, index) async {
-                    tasks[index!].isDone = value ?? false;
-                    _calcPercentage();
-                    final prefs =
-                        await SharedPreferences.getInstance();
-                    setState(() {});
-                    final tasksJson = tasks
-                        .map((e) => e.toJson())
-                        .toList();
-                    final tasksEncoded = jsonEncode(tasksJson);
-                    await prefs.setString('tasks', tasksEncoded);
+                  onChanged: (value, index) {
+                    _checkBoxDoneTask(index, value);
                   },
                 ),
               ),
@@ -234,5 +220,15 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
     );
+  }
+
+  void _checkBoxDoneTask(int? index, bool? value) async {
+    tasks[index!].isDone = value ?? false;
+    _calcPercentage();
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {});
+    final tasksJson = tasks.map((e) => e.toJson()).toList();
+    final tasksEncoded = jsonEncode(tasksJson);
+    await prefs.setString('tasks', tasksEncoded);
   }
 }
