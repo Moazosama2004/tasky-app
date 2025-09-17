@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/views/user_details_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -126,7 +127,9 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SizedBox(height: 8),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context )=> UserDetailsView()));
+                      },
                       contentPadding: EdgeInsets.zero,
                       leading: SvgPicture.asset(
                         'assets/images/profile.svg',
