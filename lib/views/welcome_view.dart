@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/widgets/custom_button.dart';
+import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/views/home_view.dart';
 import 'package:tasky_app/views/main_view.dart';
 
@@ -85,22 +87,14 @@ class _WelcomeViewState extends State<WelcomeView> {
                   height: 200,
                 ),
                 SizedBox(height: 28),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Full Name',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: Color(0xffFFFCFC),
-                      ),
-                    ),
-                    SizedBox(height: 8),
-
-                    Form(
-                      key: formKey,
-                      child: TextFormField(
+                Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextFormField(
+                        title: 'Full Name',
+                        hintText: 'e.g. Muaz Osama',
                         controller: nameController,
                         validator: (value) {
                           if (value?.trim().isEmpty ??
@@ -110,47 +104,12 @@ class _WelcomeViewState extends State<WelcomeView> {
                             return null;
                           }
                         },
-                        style: TextStyle(color: Colors.white),
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                          hintText: 'e.g. Muaz Osama',
-                          hintStyle: TextStyle(
-                            color: Color(0xff6D6D6D),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),
-                          fillColor: Color(0xff282828),
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(
-                              color: Color(0xff15B86C),
-                            ),
-                          ),
-                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(height: 24),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff15B86C),
-                    foregroundColor: Color(0xffFFFCFC),
-                    fixedSize: Size(
-                      MediaQuery.of(context).size.width,
-                      40,
-                    ),
-                  ),
+                CustomButton(
                   onPressed: () async {
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
@@ -169,13 +128,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                       nameController.clear();
                     }
                   },
-                  child: Text(
-                    'Let’s Get Started',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                    ),
-                  ),
+                  label: 'Let’s Get Started',
                 ),
                 SizedBox(height: 20),
               ],
