@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/widgets/custom_button.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/task_model.dart';
 
@@ -88,15 +89,7 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                 ],
               ),
               Spacer(),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff15B86C),
-                  foregroundColor: Color(0xffFFFCFC),
-                  fixedSize: Size(
-                    MediaQuery.of(context).size.width,
-                    40,
-                  ),
-                ),
+              CustomButton(
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
                     // log(taskDescriptionController.text);
@@ -131,13 +124,7 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                     Navigator.pop(context, true);
                   }
                 },
-                label: Text(
-                  'Add Task',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                  ),
-                ),
+                label: 'Add Task',
                 icon: Icon(Icons.add),
               ),
             ],
