@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/user_details_view.dart';
+import 'package:tasky_app/views/welcome_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -200,8 +201,19 @@ class _ProfileViewState extends State<ProfileView> {
                     SizedBox(width: 16),
                     Divider(color: Color(0xff6E6E6E)),
                     ListTile(
-                      onTap: () {
-                        // TODO : IMPLEMENT LOGOUT
+                      onTap: () async {
+                        final prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.remove('userData');
+                        prefs.remove('tasks');
+                        prefs.setBool('isVisited', false);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WelcomeView(),
+                          ),
+                          (route) => false,
+                        );
                       },
                       contentPadding: EdgeInsets.zero,
                       leading: SvgPicture.asset(
