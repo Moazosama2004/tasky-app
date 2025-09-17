@@ -141,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
                         );
                         log('result => $result');
 
-                        if (result == true || result != null) {
+                        if (result || result != null) {
                           _loadUserData();
                         }
                       },

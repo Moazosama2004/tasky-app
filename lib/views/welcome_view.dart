@@ -115,7 +115,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                   onPressed: () async {
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    if (formKey.currentState?.validate() ?? false) {
+                    if (formKey.currentState!.validate()) {
                       await prefs.setBool('isVisited', true);
                       UserModel userModel = UserModel(
                         username: nameController.text,
@@ -131,6 +131,12 @@ class _WelcomeViewState extends State<WelcomeView> {
                         ),
                       );
                       nameController.clear();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please Enter Full Name.'),
+                        ),
+                      );
                     }
                   },
                   label: 'Let’s Get Started',
