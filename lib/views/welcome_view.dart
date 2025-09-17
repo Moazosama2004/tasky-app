@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/widgets/custom_button.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
+import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/home_view.dart';
 import 'package:tasky_app/views/main_view.dart';
 
@@ -115,10 +117,13 @@ class _WelcomeViewState extends State<WelcomeView> {
                         await SharedPreferences.getInstance();
                     if (formKey.currentState?.validate() ?? false) {
                       await prefs.setBool('isVisited', true);
-                      await prefs.setString(
-                        'username',
-                        nameController.text,
+                      UserModel userModel = UserModel(
+                        username: nameController.text,
                       );
+                      final userEncoded = jsonEncode(
+                        userModel.toJson(),
+                      );
+                      await prefs.setString('userData', userEncoded);
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/user_details_view.dart';
 
 class ProfileView extends StatefulWidget {
@@ -13,7 +15,7 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  late final String? username;
+  UserModel? userModel;
   bool isLoading = true;
   bool isDarkMode = true;
   @override
@@ -22,9 +24,10 @@ class _ProfileViewState extends State<ProfileView> {
     _loadUserData();
   }
 
-  _loadUserData() async {
+  Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    username = prefs.getString('username');
+    final userData = prefs.getString('userData');
+    userModel = UserModel.fromJson(jsonDecode(userData!));
     setState(() {
       isLoading = false;
     });
@@ -94,7 +97,7 @@ class _ProfileViewState extends State<ProfileView> {
                           vertical: 8,
                         ),
                         child: Text(
-                          username ?? '',
+                          userModel?.username ?? '',
                           style: TextStyle(
                             color: Color(0xffFFFCFC),
                             fontWeight: FontWeight.w400,
@@ -103,7 +106,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       Text(
-                        'One task at a time. One step closer.',
+                        userModel?.motivationQuote ?? '',
                         style: TextStyle(
                           color: Color(0xffC6C6C6),
                           fontWeight: FontWeight.w400,
@@ -127,8 +130,20 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SizedBox(height: 8),
                     ListTile(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context )=> UserDetailsView()));
+                      onTap: () async {
+                        final bool result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserDetailsView(
+                              userModel: userModel!,
+                            ),
+                          ),
+                        );
+                        log('result => $result');
+
+                        if (result == true || result != null) {
+                          _loadUserData();
+                        }
                       },
                       contentPadding: EdgeInsets.zero,
                       leading: SvgPicture.asset(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
+import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/add_new_task_view.dart';
 import 'package:tasky_app/core/widgets/archieved_tasks.dart';
 import 'package:tasky_app/core/widgets/high_priority_tasks.dart';
@@ -19,7 +20,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  String? username = '';
+  UserModel? userModel;
   List<TaskModel> tasks = [];
   bool isDone = false;
   int totalTasks = 0;
@@ -30,13 +31,14 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    _loadUserName();
+    _loadUserData();
     _loadTasks();
   }
 
-  Future<void> _loadUserName() async {
+  Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    username = prefs.getString('username');
+    final userData = prefs.getString('userData');
+    userModel = UserModel.fromJson(jsonDecode(userData!));
     setState(() {});
   }
 
@@ -123,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                                   CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Good Evening ,$username',
+                                  'Good Evening ,${userModel?.username}',
                                   style: TextStyle(
                                     color: Color(0xffFFFCFC),
                                     fontWeight: FontWeight.w400,
@@ -131,7 +133,7 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                 ),
                                 Text(
-                                  'One task at a time.One step\ncloser.',
+                                  '${userModel?.motivationQuote}',
                                   style: TextStyle(
                                     color: Color(0xffC6C6C6),
                                     fontWeight: FontWeight.w400,
