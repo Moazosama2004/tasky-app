@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 class AddNewTaskView extends StatefulWidget {
@@ -34,16 +35,9 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Task Name',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xffFFFCFC),
-                ),
-              ),
-              SizedBox(height: 8),
-              TextFormField(
+              CustomTextFormField(
+                title: 'Task Name',
+                hintText: 'Finish UI design for login screen',
                 controller: taskNameController,
                 validator: (value) {
                   if (value?.trim().isEmpty ??
@@ -53,71 +47,23 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
                     return null;
                   }
                 },
-                style: TextStyle(color: Colors.white),
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                  hintText: 'Finish UI design for login screen',
-                  hintStyle: TextStyle(
-                    color: Color(0xff6D6D6D),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
-                  fillColor: Color(0xff282828),
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide(color: Color(0xff15B86C)),
-                  ),
-                ),
               ),
               SizedBox(height: 20.0),
-              Text(
-                'Task Description',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xffFFFCFC),
-                ),
-              ),
-              SizedBox(height: 8),
-              TextFormField(
-                controller: taskDescriptionController,
-                maxLines: 5,
-                style: TextStyle(color: Colors.white),
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                  hintText:
-                      'Finish onboarding UI and hand off to devs by Thursday.',
-                  hintStyle: TextStyle(
-                    color: Color(0xff6D6D6D),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
-                  fillColor: Color(0xff282828),
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
 
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide(color: Color(0xff15B86C)),
-                  ),
-                ),
+              CustomTextFormField(
+                title: 'Task Description',
+                hintText:
+                    'Finish onboarding UI and hand off to devs by Thursday.',
+                controller: taskDescriptionController,
+                validator: (value) {
+                  if (value?.trim().isEmpty ??
+                      false || value == null) {
+                    return 'Please Enter Task Name';
+                  } else {
+                    return null;
+                  }
+                },
+                maxLines: 5,
               ),
               SizedBox(height: 20),
               Row(

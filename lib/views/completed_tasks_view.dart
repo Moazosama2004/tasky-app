@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
-import 'package:tasky_app/widgets/tasks_list_view_builder.dart';
+import 'package:tasky_app/core/widgets/tasks_list_view_builder.dart';
 
 class CompletedTasksView extends StatefulWidget {
   const CompletedTasksView({super.key});
