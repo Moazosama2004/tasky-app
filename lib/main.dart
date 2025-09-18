@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/views/home_view.dart';
 import 'package:tasky_app/views/main_view.dart';
 import 'package:tasky_app/views/welcome_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
-  bool isVisited = prefs.getBool('isVisited') ?? false;
-  // prefs.clear();
+  await PreferencesManager().init();
+  bool isVisited = PreferencesManager().getBool('isVisited') ?? false;
   runApp(TaskyApp(isVisited: isVisited));
 }
 

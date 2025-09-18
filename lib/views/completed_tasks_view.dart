@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/core/widgets/tasks_list_view_builder.dart';
 
@@ -23,8 +24,7 @@ class _CompletedTasksViewState extends State<CompletedTasksView> {
   }
 
   _loadTasks() async {
-    final prefs = await SharedPreferences.getInstance();
-    final finalTask = prefs.getString('tasks');
+    final finalTask = PreferencesManager().getString('tasks');
     if (finalTask != null) {
       final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
       tasks = taskAfterDecoded
@@ -58,9 +58,10 @@ class _CompletedTasksViewState extends State<CompletedTasksView> {
               tasks: tasks,
               onChanged: (value, index) async {
                 tasks[index!].isDone = value ?? false;
-                final prefs = await SharedPreferences.getInstance();
 
-                final fullTasks = prefs.getString('tasks');
+                final fullTasks = PreferencesManager().getString(
+                  'tasks',
+                );
 
                 if (fullTasks != null) {
                   List<TaskModel> fullTasksList =
@@ -71,7 +72,7 @@ class _CompletedTasksViewState extends State<CompletedTasksView> {
                     (e) => e.id == tasks[index].id,
                   );
                   fullTasksList[comparingIndex] = tasks[index];
-                  await prefs.setString(
+                  await PreferencesManager().setString(
                     'tasks',
                     jsonEncode(fullTasksList),
                   );

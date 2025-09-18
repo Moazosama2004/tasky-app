@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/user_details_view.dart';
 import 'package:tasky_app/views/welcome_view.dart';
@@ -26,8 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Future<void> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userData = prefs.getString('userData');
+    final userData = PreferencesManager().getString('userData');
     userModel = UserModel.fromJson(jsonDecode(userData!));
     setState(() {
       isLoading = false;
@@ -202,11 +202,12 @@ class _ProfileViewState extends State<ProfileView> {
                     Divider(color: Color(0xff6E6E6E)),
                     ListTile(
                       onTap: () async {
-                        final prefs =
-                            await SharedPreferences.getInstance();
-                        prefs.remove('userData');
-                        prefs.remove('tasks');
-                        prefs.setBool('isVisited', false);
+                        PreferencesManager().remove('userData');
+                        PreferencesManager().remove('tasks');
+                        PreferencesManager().setBool(
+                          'isVisited',
+                          false,
+                        );
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(

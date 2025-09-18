@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_button.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/task_model.dart';
@@ -92,18 +93,13 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
               CustomButton(
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
-                    // log(taskDescriptionController.text);
-                    final prefs =
-                        await SharedPreferences.getInstance();
-
-                    final tasksJson = prefs.getString('tasks');
-
+                    final tasksJson = PreferencesManager().getString(
+                      'tasks',
+                    );
                     List<dynamic> listTasks = [];
-
                     if (tasksJson != null) {
                       listTasks = jsonDecode(tasksJson);
                     }
-
                     TaskModel taskModel = TaskModel(
                       id: listTasks.length + 1,
                       taskName: taskNameController.text,
@@ -120,7 +116,10 @@ class _AddNewTaskViewState extends State<AddNewTaskView> {
 
                     final tasksEncoded = jsonEncode(listTasks);
 
-                    await prefs.setString('tasks', tasksEncoded);
+                    await PreferencesManager().setString(
+                      'tasks',
+                      tasksEncoded,
+                    );
                     Navigator.pop(context, true);
                   }
                 },

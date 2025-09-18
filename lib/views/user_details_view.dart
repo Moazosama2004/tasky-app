@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_button.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/user_model.dart';
@@ -74,15 +75,16 @@ class _UserDetailsViewState extends State<UserDetailsView> {
               CustomButton(
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    final prefs =
-                        await SharedPreferences.getInstance();
                     final newUserData = jsonEncode(
                       UserModel(
                         username: userNameContoller.text,
                         motivationQuote: quoteController.text,
                       ).toJson(),
                     );
-                    await prefs.setString('userData', newUserData);
+                    await PreferencesManager().setString(
+                      'userData',
+                      newUserData,
+                    );
                     Navigator.pop(context, true);
                     // Todo : focus on navigate
                   }

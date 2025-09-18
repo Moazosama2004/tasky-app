@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/add_new_task_view.dart';
@@ -36,15 +37,13 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Future<void> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userData = prefs.getString('userData');
+    final userData = PreferencesManager().getString('userData');
     userModel = UserModel.fromJson(jsonDecode(userData!));
     setState(() {});
   }
 
   _loadTasks() async {
-    final prefs = await SharedPreferences.getInstance();
-    final finalTask = prefs.getString('tasks');
+    final finalTask = PreferencesManager().getString('tasks');
     if (finalTask != null) {
       final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
       tasks = taskAfterDecoded
@@ -234,10 +233,9 @@ class _HomeViewState extends State<HomeView> {
   void _checkBoxDoneTask(int? index, bool? value) async {
     tasks[index!].isDone = value ?? false;
     _calcPercentage();
-    final prefs = await SharedPreferences.getInstance();
     setState(() {});
     final tasksJson = tasks.map((e) => e.toJson()).toList();
     final tasksEncoded = jsonEncode(tasksJson);
-    await prefs.setString('tasks', tasksEncoded);
+    await PreferencesManager().setString('tasks', tasksEncoded);
   }
 }

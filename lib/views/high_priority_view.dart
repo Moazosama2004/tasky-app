@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/core/widgets/tasks_list_view_builder.dart';
 
+import '../core/services/preferences_manager.dart';
+
 class HighPriorityView extends StatefulWidget {
   const HighPriorityView({super.key});
 
@@ -21,8 +23,7 @@ class _HighPriorityViewState extends State<HighPriorityView> {
   }
 
   _loadTasks() async {
-    final prefs = await SharedPreferences.getInstance();
-    final finalTask = prefs.getString('tasks');
+    final finalTask = PreferencesManager().getString('tasks');
     if (finalTask != null) {
       final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
       highPrioritytasks = taskAfterDecoded.reversed
@@ -43,9 +44,8 @@ class _HighPriorityViewState extends State<HighPriorityView> {
           tasks: highPrioritytasks,
           onChanged: (value, index) async {
             highPrioritytasks[index!].isDone = value ?? false;
-            final prefs = await SharedPreferences.getInstance();
 
-            final fullTasks = prefs.getString('tasks');
+            final fullTasks = PreferencesManager().getString('tasks');
 
             if (fullTasks != null) {
               List<TaskModel> fullTasksList =
@@ -57,7 +57,7 @@ class _HighPriorityViewState extends State<HighPriorityView> {
               );
               fullTasksList[comparingIndex] =
                   highPrioritytasks[index];
-              await prefs.setString(
+              await PreferencesManager().setString(
                 'tasks',
                 jsonEncode(fullTasksList),
               );

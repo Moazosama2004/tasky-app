@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_button.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/user_model.dart';
@@ -113,17 +114,21 @@ class _WelcomeViewState extends State<WelcomeView> {
                 SizedBox(height: 24),
                 CustomButton(
                   onPressed: () async {
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
                     if (formKey.currentState!.validate()) {
-                      await prefs.setBool('isVisited', true);
+                      await PreferencesManager().setBool(
+                        'isVisited',
+                        true,
+                      );
                       UserModel userModel = UserModel(
                         username: nameController.text,
                       );
                       final userEncoded = jsonEncode(
                         userModel.toJson(),
                       );
-                      await prefs.setString('userData', userEncoded);
+                      await PreferencesManager().setString(
+                        'userData',
+                        userEncoded,
+                      );
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
