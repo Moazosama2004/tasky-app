@@ -59,16 +59,24 @@ ThemeData darkTheme = ThemeData(
       fontSize: 32,
       color: Color(0xffFFFCFC),
     ),
-
+    titleSmall: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      color: Color(0xffC6C6C6),
+    ),
     titleMedium: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 16,
       color: Color(0xffFFFCFC),
     ),
-    titleSmall: TextStyle(
+
+    titleLarge: TextStyle(
       fontWeight: FontWeight.w400,
-      fontSize: 14,
-      color: Color(0xffC6C6C6),
+      fontSize: 16,
+      color: Color(0xffA0A0A0),
+      decorationColor: Color(0xff49454F),
+      decoration: TextDecoration.lineThrough,
+      overflow: TextOverflow.ellipsis,
     ),
 
     labelMedium: TextStyle(color: Colors.white, fontSize: 16),
@@ -93,6 +101,11 @@ ThemeData darkTheme = ThemeData(
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(color: Color(0xff15B86C)),
+    ),
+  ),
+  checkboxTheme: CheckboxThemeData(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadiusGeometry.circular(4),
     ),
   ),
 );

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/views/high_priority_view.dart';
 
@@ -21,7 +22,7 @@ class HighPriorityTasks extends StatelessWidget {
       // height: 176,
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Color(0XFF282828),
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -50,7 +51,7 @@ class HighPriorityTasks extends StatelessWidget {
                         .map((element) {
                           return Row(
                             children: [
-                              Checkbox(
+                              CustomCheckBox(
                                 value: element.isDone,
                                 onChanged: (value) {
                                   final int index = tasks.indexWhere(
@@ -58,33 +59,20 @@ class HighPriorityTasks extends StatelessWidget {
                                   );
                                   onChanged(value, index);
                                 },
-                                activeColor: Color(0xff15B86C),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadiusGeometry.circular(
-                                        4,
-                                      ),
-                                ),
                               ),
                               SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   element.taskName,
                                   maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: element.isDone
-                                        ? Color(0xffA0A0A0)
-                                        : Color(0xffFFFCFC),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    decoration: element.isDone
-                                        ? TextDecoration.lineThrough
-                                        : null,
-                                    decorationColor: Color(
-                                      0xffA0A0A0,
-                                    ),
-                                  ),
+
+                                  style: element.isDone
+                                      ? Theme.of(
+                                          context,
+                                        ).textTheme.titleLarge
+                                      : Theme.of(
+                                          context,
+                                        ).textTheme.titleMedium,
                                 ),
                               ),
                             ],
@@ -103,7 +91,9 @@ class HighPriorityTasks extends StatelessWidget {
                   radius: 20,
                   child: CircleAvatar(
                     radius: 19,
-                    backgroundColor: Color(0xff282828),
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.primaryContainer,
                     child: IconButton(
                       onPressed: () async {
                         final result = await Navigator.push(

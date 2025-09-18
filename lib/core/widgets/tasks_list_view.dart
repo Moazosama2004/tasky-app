@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 class TasksListView extends StatelessWidget {
@@ -27,16 +28,13 @@ class TasksListView extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(width: 8),
-                Checkbox(
+                CustomCheckBox(
                   value: tasks[index].isDone,
                   onChanged: (value) async {
                     onChanged(value, index);
                   },
-                  activeColor: Color(0xff15B86C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(4),
-                  ),
                 ),
+
                 SizedBox(width: 16),
                 Expanded(
                   child: Column(

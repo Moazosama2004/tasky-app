@@ -45,11 +45,7 @@ class ArchievedTasks extends StatelessWidget {
             children: [
               Text(
                 '${(percentage * 100).toInt()}%',
-                style: TextStyle(
-                  color: Color(0xffFFFCFC),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               Transform.rotate(
                 angle: -pi / 2,

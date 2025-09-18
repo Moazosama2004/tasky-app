@@ -59,15 +59,24 @@ ThemeData lightTheme = ThemeData(
       fontSize: 32,
       color: Color(0xff161F1B),
     ),
+    titleSmall: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      color: Color(0xff3A4640),
+    ),
     titleMedium: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 16,
       color: Color(0xff161F1B),
     ),
-    titleSmall: TextStyle(
+
+    titleLarge: TextStyle(
       fontWeight: FontWeight.w400,
-      fontSize: 14,
-      color: Color(0xff3A4640),
+      fontSize: 16,
+      color: Color(0xff6A6A6A),
+      decorationColor: Color(0xff49454F),
+      decoration: TextDecoration.lineThrough,
+      overflow: TextOverflow.ellipsis,
     ),
 
     labelMedium: TextStyle(color: Colors.black, fontSize: 16),
@@ -94,5 +103,11 @@ ThemeData lightTheme = ThemeData(
       borderSide: BorderSide(color: Color(0xffD1DAD6)),
       // borderSide: BorderSide(color: Color(0xff15B86C)),
     ),
+  ),
+  checkboxTheme: CheckboxThemeData(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadiusGeometry.circular(4),
+    ),
+    side: BorderSide(color: Color(0xffD1DAD6), width: 2),
   ),
 );
