@@ -47,11 +47,9 @@ class _WelcomeViewState extends State<WelcomeView> {
                     SizedBox(width: 16),
                     Text(
                       'Tasky',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 28,
-                        color: Color(0xffFFFFFF),
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.displayMedium,
                     ),
                   ],
                 ),
@@ -61,11 +59,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                   children: [
                     Text(
                       'Welcome To Tasky ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 24,
-                        color: Color(0xffFFFCFC),
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     SvgPicture.asset(
                       'assets/images/wave_hand.svg',
@@ -77,11 +71,9 @@ class _WelcomeViewState extends State<WelcomeView> {
                 SizedBox(height: 8),
                 Text(
                   'Your productivity journey starts here.',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                    color: Color(0xffFFFCFC),
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.displaySmall!.copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 24),
                 SvgPicture.asset(

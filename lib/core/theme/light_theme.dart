@@ -41,4 +41,16 @@ ThemeData lightTheme = ThemeData(
     elevation: 0.0,
     backgroundColor: Colors.transparent,
   ),
+  textTheme: TextTheme(
+    displayMedium: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 28,
+      color: Color(0xff161F1B),
+    ),
+    displaySmall: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 24,
+      color: Color(0xff161F1B),
+    ),
+  ),
 );
