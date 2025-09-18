@@ -4,6 +4,7 @@ ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: Color(0xff181818),
   brightness: Brightness.dark,
+  colorScheme: ColorScheme.dark(primaryContainer: Color(0XFF282828)),
   switchTheme: SwitchThemeData(
     trackColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
@@ -43,15 +44,31 @@ ThemeData darkTheme = ThemeData(
   ),
 
   textTheme: TextTheme(
+    displaySmall: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 24,
+      color: Color(0xffFFFCFC),
+    ),
     displayMedium: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 28,
       color: Color(0xffFFFFFF),
     ),
-    displaySmall: TextStyle(
+    displayLarge: TextStyle(
       fontWeight: FontWeight.w400,
-      fontSize: 24,
+      fontSize: 32,
       color: Color(0xffFFFCFC),
+    ),
+
+    titleMedium: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 16,
+      color: Color(0xffFFFCFC),
+    ),
+    titleSmall: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      color: Color(0xffC6C6C6),
     ),
 
     labelMedium: TextStyle(color: Colors.white, fontSize: 16),

@@ -4,6 +4,7 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: Color(0xffF6F7F9),
   brightness: Brightness.light,
+  colorScheme: ColorScheme.light(primaryContainer: Color(0XFFFFFFFF)),
   switchTheme: SwitchThemeData(
     trackColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
@@ -52,6 +53,23 @@ ThemeData lightTheme = ThemeData(
       fontSize: 24,
       color: Color(0xff161F1B),
     ),
+
+    displayLarge: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 32,
+      color: Color(0xff161F1B),
+    ),
+    titleMedium: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 16,
+      color: Color(0xff161F1B),
+    ),
+    titleSmall: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      color: Color(0xff3A4640),
+    ),
+
     labelMedium: TextStyle(color: Colors.black, fontSize: 16),
   ),
   inputDecorationTheme: InputDecorationTheme(

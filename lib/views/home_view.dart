@@ -49,11 +49,6 @@ class _HomeViewState extends State<HomeView> {
       tasks = taskAfterDecoded
           .map((e) => TaskModel.fromJson(e))
           .toList();
-
-      // highPriorityTasks = tasks
-      // .where((e) => e.isHighPriority)
-      // .toList();
-
       _calcPercentage();
 
       setState(() {});
@@ -125,19 +120,15 @@ class _HomeViewState extends State<HomeView> {
                               children: [
                                 Text(
                                   'Good Evening ,${userModel?.username}',
-                                  style: TextStyle(
-                                    color: Color(0xffFFFCFC),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                  ),
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
                                 ),
                                 Text(
                                   '${userModel?.motivationQuote}',
-                                  style: TextStyle(
-                                    color: Color(0xffC6C6C6),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                  ),
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleSmall,
                                 ),
                               ],
                             ),
@@ -163,21 +154,17 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         Text(
                           'Yuhuu ,Your work Is',
-                          style: TextStyle(
-                            color: Color(0xffFFFCFC),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 32,
-                          ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.displayLarge,
                         ),
                         Row(
                           children: [
                             Text(
                               'almost done ! ',
-                              style: TextStyle(
-                                color: Color(0xffFFFCFC),
-                                fontWeight: FontWeight.w400,
-                                fontSize: 32,
-                              ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.displayLarge,
                             ),
                             SvgPicture.asset(
                               'assets/images/wave_hand.svg',

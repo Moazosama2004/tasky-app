@@ -19,7 +19,7 @@ class ArchievedTasks extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color(0XFF282828),
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20),
       ),
       padding: EdgeInsets.all(16),
@@ -32,19 +32,11 @@ class ArchievedTasks extends StatelessWidget {
             children: [
               Text(
                 'Achieved Tasks',
-                style: TextStyle(
-                  color: Color(0xffFFFCFC),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                ),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               Text(
                 '$doneTasks Out of $totalTasks Done',
-                style: TextStyle(
-                  color: Color(0xffC6C6C6),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ],
           ),
