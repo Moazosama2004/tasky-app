@@ -53,5 +53,29 @@ ThemeData darkTheme = ThemeData(
       fontSize: 24,
       color: Color(0xffFFFCFC),
     ),
+
+    labelMedium: TextStyle(color: Colors.white, fontSize: 16),
+  ),
+
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: TextStyle(
+      color: Color(0xff6D6D6D),
+      fontWeight: FontWeight.w400,
+      fontSize: 16,
+    ),
+    fillColor: Color(0xff282828),
+    filled: true,
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide.none,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide.none,
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(color: Color(0xff15B86C)),
+    ),
   ),
 );

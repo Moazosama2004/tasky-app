@@ -52,5 +52,29 @@ ThemeData lightTheme = ThemeData(
       fontSize: 24,
       color: Color(0xff161F1B),
     ),
+    labelMedium: TextStyle(color: Colors.black, fontSize: 16),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: TextStyle(
+      color: Color(0xff9E9E9E),
+      fontWeight: FontWeight.w400,
+      fontSize: 16,
+    ),
+    fillColor: Color(0xffFFFFFF),
+    filled: true,
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(color: Color(0xffD1DAD6)),
+      // borderSide: BorderSide.none,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(color: Color(0xffD1DAD6)),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(color: Color(0xffD1DAD6)),
+      // borderSide: BorderSide(color: Color(0xff15B86C)),
+    ),
   ),
 );
