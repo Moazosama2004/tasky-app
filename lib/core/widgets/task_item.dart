@@ -51,14 +51,23 @@ class TaskItem extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            onPressed: () {},
+          PopupMenuButton(
             icon: Icon(
               Icons.more_vert,
               color: ThemeController.isDark()
                   ? (task.isDone ? Color(0xffA0A0A0) : Color(0xffFFFCFC))
                   : (task.isDone ? Color(0xff6A6A6A) : Color(0xff3A4640)),
             ),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'edit',
+                child: Text('Edit', style: TextStyle(fontSize: 16)),
+              ),
+              PopupMenuItem(
+                value: 'delete',
+                child: Text('Delete', style: TextStyle(fontSize: 16)),
+              ),
+            ],
           ),
         ],
       ),
