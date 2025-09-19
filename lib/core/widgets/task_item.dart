@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/models/task_model.dart';
 
@@ -15,6 +16,11 @@ class TaskItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: ThemeController.isDark()
+              ? Colors.transparent
+              : Color(0xffD1DAD6),
+        ),
       ),
       child: Row(
         children: [
@@ -49,7 +55,9 @@ class TaskItem extends StatelessWidget {
             onPressed: () {},
             icon: Icon(
               Icons.more_vert,
-              color: task.isDone ? Color(0xffA0A0A0) : Color(0xffFFFCFC),
+              color: ThemeController.isDark()
+                  ? (task.isDone ? Color(0xffA0A0A0) : Color(0xffFFFCFC))
+                  : (task.isDone ? Color(0xff6A6A6A) : Color(0xff3A4640)),
             ),
           ),
         ],

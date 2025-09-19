@@ -18,4 +18,6 @@ class ThemeController {
     themeNotifier.value = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     await PreferencesManager().setBool('isDarkMode', isDarkMode);
   }
+
+  static isDark() => themeNotifier.value == ThemeMode.dark;
 }

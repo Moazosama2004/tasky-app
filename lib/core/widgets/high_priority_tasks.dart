@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/views/high_priority_view.dart';
@@ -24,6 +25,11 @@ class HighPriorityTasks extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: ThemeController.isDark()
+              ? Colors.transparent
+              : Color(0xffD1DAD6),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +93,10 @@ class HighPriorityTasks extends StatelessWidget {
                   vertical: 8,
                 ),
                 child: CircleAvatar(
-                  backgroundColor: Color(0xff6E6E6E),
+                  backgroundColor: ThemeController.isDark()
+                      ? Color(0xff6E6E6E)
+                      : Color(0xffD1DAD6),
+
                   radius: 20,
                   child: CircleAvatar(
                     radius: 19,
@@ -107,7 +116,9 @@ class HighPriorityTasks extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.arrow_outward,
-                        color: Color(0xffC6C6C6),
+                        color: ThemeController.isDark()
+                            ? Color(0xffC6C6C6)
+                            : Color(0xff3A4640),
                       ),
                     ),
                   ),

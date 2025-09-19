@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/theme/theme_controller.dart';
 
 class ArchievedTasks extends StatelessWidget {
   const ArchievedTasks({
@@ -21,6 +22,11 @@ class ArchievedTasks extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: ThemeController.isDark()
+              ? Colors.transparent
+              : Color(0xffD1DAD6),
+        ),
       ),
       padding: EdgeInsets.all(16),
 
