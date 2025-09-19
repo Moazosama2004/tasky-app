@@ -76,9 +76,17 @@ class _ProfileViewState extends State<ProfileView> {
                               },
                               child: CircleAvatar(
                                 radius: 17,
-                                backgroundColor: Color(0xff282828),
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.primaryContainer,
                                 child: SvgPicture.asset(
                                   'assets/images/camera.svg',
+                                  colorFilter: ColorFilter.mode(
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.secondary,
+                                    BlendMode.srcIn,
+                                  ),
                                 ),
                               ),
                             ),
@@ -89,20 +97,12 @@ class _ProfileViewState extends State<ProfileView> {
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           userModel?.username ?? '',
-                          style: TextStyle(
-                            color: Color(0xffFFFCFC),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                       ),
                       Text(
                         userModel?.motivationQuote ?? '',
-                        style: TextStyle(
-                          color: Color(0xffC6C6C6),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ],
                   ),
@@ -113,11 +113,7 @@ class _ProfileViewState extends State<ProfileView> {
                   children: [
                     Text(
                       'Profile Info',
-                      style: TextStyle(
-                        color: Color(0xffFFFCFC),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     SizedBox(height: 8),
                     ListTile(
@@ -135,11 +131,10 @@ class _ProfileViewState extends State<ProfileView> {
                           _loadUserData();
                         }
                       },
-                      contentPadding: EdgeInsets.zero,
                       leading: SvgPicture.asset(
                         'assets/images/profile.svg',
                         colorFilter: ColorFilter.mode(
-                          Color(0xffFFFCFC),
+                          Theme.of(context).colorScheme.secondary,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -147,26 +142,18 @@ class _ProfileViewState extends State<ProfileView> {
                         onPressed: () {},
                         icon: Icon(
                           Icons.arrow_forward,
-                          color: Color(0xffC6C6C6),
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
-                      title: Text(
-                        'User Details',
-                        style: TextStyle(
-                          color: Color(0xffFFFCFC),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
+                      title: Text('User Details'),
                     ),
                     SizedBox(width: 16),
-                    Divider(color: Color(0xff6E6E6E)),
+                    Divider(),
                     ListTile(
-                      contentPadding: EdgeInsets.zero,
                       leading: SvgPicture.asset(
                         'assets/images/moon.svg',
                         colorFilter: ColorFilter.mode(
-                          Color(0xffFFFCFC),
+                          Theme.of(context).colorScheme.secondary,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -181,17 +168,10 @@ class _ProfileViewState extends State<ProfileView> {
                           );
                         },
                       ),
-                      title: Text(
-                        'Dark Mode',
-                        style: TextStyle(
-                          color: Color(0xffFFFCFC),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
+                      title: Text('Dark Mode'),
                     ),
                     SizedBox(width: 16),
-                    Divider(color: Color(0xff6E6E6E)),
+                    Divider(),
                     ListTile(
                       onTap: () async {
                         PreferencesManager().remove('userData');
@@ -205,11 +185,10 @@ class _ProfileViewState extends State<ProfileView> {
                           (route) => false,
                         );
                       },
-                      contentPadding: EdgeInsets.zero,
                       leading: SvgPicture.asset(
                         'assets/images/logout.svg',
                         colorFilter: ColorFilter.mode(
-                          Color(0xffFFFCFC),
+                          Theme.of(context).colorScheme.secondary,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -217,17 +196,10 @@ class _ProfileViewState extends State<ProfileView> {
                         onPressed: () {},
                         icon: Icon(
                           Icons.arrow_forward,
-                          color: Color(0xffC6C6C6),
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
-                      title: Text(
-                        'Log Out',
-                        style: TextStyle(
-                          color: Color(0xffFFFCFC),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
+                      title: Text('Log Out'),
                     ),
                   ],
                 ),

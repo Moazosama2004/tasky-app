@@ -4,7 +4,10 @@ ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: Color(0xff181818),
   brightness: Brightness.dark,
-  colorScheme: ColorScheme.dark(primaryContainer: Color(0XFF282828)),
+  colorScheme: ColorScheme.dark(
+    primaryContainer: Color(0XFF282828),
+    secondary: Color(0xffFFFCFC),
+  ),
   switchTheme: SwitchThemeData(
     trackColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
@@ -144,5 +147,20 @@ ThemeData darkTheme = ThemeData(
       fontSize: 14,
       color: Color(0xffffffff),
     ),
+  ),
+
+  listTileTheme: ListTileThemeData(
+    contentPadding: EdgeInsets.zero,
+    titleTextStyle: TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+  ),
+  dividerTheme: DividerThemeData(color: Color(0xff6E6E6E)),
+
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor: Color(0xff15B86C),
+    selectionHandleColor: Color(0xff15B86C),
   ),
 );

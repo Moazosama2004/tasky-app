@@ -4,7 +4,10 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: Color(0xffF6F7F9),
   brightness: Brightness.light,
-  colorScheme: ColorScheme.light(primaryContainer: Color(0XFFFFFFFF)),
+  colorScheme: ColorScheme.light(
+    primaryContainer: Color(0XFFFFFFFF),
+    secondary: Color(0XFF161F1B),
+  ),
   switchTheme: SwitchThemeData(
     trackColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
@@ -79,7 +82,7 @@ ThemeData lightTheme = ThemeData(
       overflow: TextOverflow.ellipsis,
     ),
     labelSmall: TextStyle(
-      color: Colors.white,
+      color: Color(0xff161F1B),
       fontSize: 16,
       fontWeight: FontWeight.w400,
     ),
@@ -148,5 +151,19 @@ ThemeData lightTheme = ThemeData(
       fontSize: 14,
       color: Color(0xffffffff),
     ),
+  ),
+
+  listTileTheme: ListTileThemeData(
+    contentPadding: EdgeInsets.zero,
+    titleTextStyle: TextStyle(
+      color: Color(0xff161F1B),
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+  ),
+  dividerTheme: DividerThemeData(color: Color(0xFFCAC4D0)),
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor: Color(0xff15B86C),
+    selectionHandleColor: Color(0xff15B86C),
   ),
 );
