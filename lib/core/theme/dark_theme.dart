@@ -163,4 +163,20 @@ ThemeData darkTheme = ThemeData(
     cursorColor: Color(0xff15B86C),
     selectionHandleColor: Color(0xff15B86C),
   ),
+
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: 0.0,
+    backgroundColor: Color(0xff181818),
+    type: BottomNavigationBarType.fixed,
+    selectedItemColor: Color(0xff15B86C),
+    unselectedItemColor: Color(0xffC6C6C6),
+    selectedLabelStyle: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
 );

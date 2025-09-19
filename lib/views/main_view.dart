@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/views/completed_tasks_view.dart';
 import 'package:tasky_app/views/home_view.dart';
 import 'package:tasky_app/views/profile_view.dart';
@@ -26,48 +27,64 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        elevation: 0.0,
         onTap: (index) {
           currentIndex = index;
           setState(() {});
         },
         currentIndex: currentIndex,
-        backgroundColor: Color(0xff181818),
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xff15B86C),
-        unselectedItemColor: Color(0xffC6C6C6),
-        selectedLabelStyle: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-        ),
-        unselectedLabelStyle: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-        ),
+
         items: [
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/images/home.svg'),
-            activeIcon: SvgPicture.asset(
-              'assets/images/home-active.svg',
+            icon: SvgPicture.asset(
+              'assets/images/home.svg',
+              colorFilter: ColorFilter.mode(
+                ThemeController.isDark()
+                    ? Color(0xffC6C6C6)
+                    : Color(0xff3A4640),
+                BlendMode.srcIn,
+              ),
             ),
+            activeIcon: SvgPicture.asset('assets/images/home-active.svg'),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/images/todo.svg'),
-            activeIcon: SvgPicture.asset(
-              'assets/images/todo-active.svg',
+            icon: SvgPicture.asset(
+              'assets/images/todo.svg',
+              colorFilter: ColorFilter.mode(
+                ThemeController.isDark()
+                    ? Color(0xffC6C6C6)
+                    : Color(0xff3A4640),
+                BlendMode.srcIn,
+              ),
             ),
+            activeIcon: SvgPicture.asset('assets/images/todo-active.svg'),
             label: 'To Do',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/images/completed.svg'),
+            icon: SvgPicture.asset(
+              'assets/images/completed.svg',
+              colorFilter: ColorFilter.mode(
+                ThemeController.isDark()
+                    ? Color(0xffC6C6C6)
+                    : Color(0xff3A4640),
+                BlendMode.srcIn,
+              ),
+            ),
             activeIcon: SvgPicture.asset(
               'assets/images/completed-active.svg',
             ),
             label: 'Completed',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/images/profile.svg'),
+            icon: SvgPicture.asset(
+              'assets/images/profile.svg',
+              colorFilter: ColorFilter.mode(
+                ThemeController.isDark()
+                    ? Color(0xffC6C6C6)
+                    : Color(0xff3A4640),
+                BlendMode.srcIn,
+              ),
+            ),
             activeIcon: SvgPicture.asset(
               'assets/images/profile-active.svg',
             ),

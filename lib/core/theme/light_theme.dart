@@ -166,4 +166,21 @@ ThemeData lightTheme = ThemeData(
     cursorColor: Color(0xff15B86C),
     selectionHandleColor: Color(0xff15B86C),
   ),
+
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    elevation: 0.0,
+    backgroundColor: Color(0xffF6F7F9),
+    type: BottomNavigationBarType.fixed,
+    selectedItemColor: Color(0xff15B86C),
+    unselectedItemColor: Color(0xff3A4640),
+    selectedLabelStyle: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
+  splashFactory: NoSplash.splashFactory,
 );
