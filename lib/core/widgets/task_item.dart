@@ -51,13 +51,20 @@ class TaskItem extends StatelessWidget {
               ],
             ),
           ),
-          PopupMenuButton(
+          PopupMenuButton<String>(
             icon: Icon(
               Icons.more_vert,
               color: ThemeController.isDark()
                   ? (task.isDone ? Color(0xffA0A0A0) : Color(0xffFFFCFC))
                   : (task.isDone ? Color(0xff6A6A6A) : Color(0xff3A4640)),
             ),
+            onSelected: (String? value) {
+              if (value == 'edit') {
+                print('$value , edit');
+              } else if (value == 'delete') {
+                print('$value , delete');
+              }
+            },
             itemBuilder: (context) => [
               PopupMenuItem(
                 value: 'edit',

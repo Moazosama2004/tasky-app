@@ -183,4 +183,20 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   splashFactory: NoSplash.splashFactory,
+
+  popupMenuTheme: PopupMenuThemeData(
+    color: Color(0xffF6F7F9),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadiusGeometry.circular(16),
+    ),
+    shadowColor: Color(0xff15B86C),
+    elevation: 2,
+    labelTextStyle: WidgetStateProperty.all(
+      TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+  ),
 );
