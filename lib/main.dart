@@ -28,13 +28,13 @@ class TaskyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: themeNotifier,
-      builder: (context, ThemeMode value, Widget? child) =>
+      builder: (context, ThemeMode themeMode, Widget? child) =>
           MaterialApp(
             title: 'Tasky',
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
             darkTheme: darkTheme,
-            themeMode: value,
+            themeMode: themeMode,
             home: _navigateTo(isVisited: isVisited),
           ),
     );

@@ -20,7 +20,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   UserModel? userModel;
   bool isLoading = true;
-  bool? isDarkMode;
+  bool isDarkMode = false;
   @override
   void initState() {
     super.initState();
@@ -37,7 +37,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Future<void> _loadDarkModeStatus() async {
-    isDarkMode = PreferencesManager().getBool('isDarkMode');
+    isDarkMode = PreferencesManager().getBool('isDarkMode')!;
   }
 
   @override
@@ -188,7 +188,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       trailing: Switch(
-                        value: isDarkMode ?? false,
+                        value: isDarkMode,
                         onChanged: (value) async {
                           log(
                             'themeNotifier.value -> ${themeNotifier.value}',
@@ -196,14 +196,14 @@ class _ProfileViewState extends State<ProfileView> {
                           setState(() {
                             isDarkMode = value;
 
-                            themeNotifier.value = isDarkMode!
+                            themeNotifier.value = isDarkMode
                                 ? ThemeMode.dark
                                 : ThemeMode.light;
                           });
 
                           await PreferencesManager().setBool(
                             'isDarkMode',
-                            isDarkMode!,
+                            isDarkMode,
                           );
                           log(
                             'themeNotifier.value -> ${themeNotifier.value}',
