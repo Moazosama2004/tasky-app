@@ -79,12 +79,21 @@ ThemeData darkTheme = ThemeData(
       overflow: TextOverflow.ellipsis,
     ),
 
-    labelLarge: TextStyle(
+    labelMedium: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 20,
       color: Color(0xffFFFCFC),
     ),
-    labelMedium: TextStyle(color: Colors.white, fontSize: 16),
+    labelSmall: TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+    labelLarge: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 24,
+      color: Color(0xffFFFCFC),
+    ),
   ),
 
   inputDecorationTheme: InputDecorationTheme(

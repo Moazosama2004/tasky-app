@@ -42,11 +42,7 @@ class _TodoTasksViewState extends State<TodoTasksView> {
           padding: const EdgeInsets.all(18.0),
           child: Text(
             'To Do Tasks',
-            style: TextStyle(
-              color: Color(0xffFFFCFC),
-              fontWeight: FontWeight.w400,
-              fontSize: 20,
-            ),
+            style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
         Expanded(
@@ -57,9 +53,7 @@ class _TodoTasksViewState extends State<TodoTasksView> {
               onChanged: (value, index) async {
                 tasks[index!].isDone = value ?? false;
 
-                final fullTasks = PreferencesManager().getString(
-                  'tasks',
-                );
+                final fullTasks = PreferencesManager().getString('tasks');
 
                 if (fullTasks != null) {
                   List<TaskModel> fullTasksList =

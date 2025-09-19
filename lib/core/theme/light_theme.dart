@@ -78,11 +78,20 @@ ThemeData lightTheme = ThemeData(
       decoration: TextDecoration.lineThrough,
       overflow: TextOverflow.ellipsis,
     ),
-
-    labelMedium: TextStyle(color: Colors.black, fontSize: 16),
-    labelLarge: TextStyle(
+    labelSmall: TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+    labelMedium: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 20,
+      color: Color(0xff161F1B),
+    ),
+
+    labelLarge: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 24,
       color: Color(0xff161F1B),
     ),
   ),

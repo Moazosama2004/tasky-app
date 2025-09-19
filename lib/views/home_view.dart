@@ -187,7 +187,7 @@ class _HomeViewState extends State<HomeView> {
                     SizedBox(height: 24),
                     Text(
                       'My Tasks',
-                      style: Theme.of(context).textTheme.labelLarge,
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     SizedBox(height: 16),
                   ],

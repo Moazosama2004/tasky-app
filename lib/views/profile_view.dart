@@ -50,11 +50,7 @@ class _ProfileViewState extends State<ProfileView> {
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(
                     'My Profile',
-                    style: TextStyle(
-                      color: Color(0xffFFFCFC),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ),
                 SizedBox(height: 16),

@@ -10,8 +10,7 @@ class CompletedTasksView extends StatefulWidget {
   const CompletedTasksView({super.key});
 
   @override
-  State<CompletedTasksView> createState() =>
-      _CompletedTasksViewState();
+  State<CompletedTasksView> createState() => _CompletedTasksViewState();
 }
 
 class _CompletedTasksViewState extends State<CompletedTasksView> {
@@ -44,11 +43,7 @@ class _CompletedTasksViewState extends State<CompletedTasksView> {
           padding: const EdgeInsets.all(18.0),
           child: Text(
             'Completed Tasks',
-            style: TextStyle(
-              color: Color(0xffFFFCFC),
-              fontWeight: FontWeight.w400,
-              fontSize: 20,
-            ),
+            style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
         Expanded(
@@ -59,9 +54,7 @@ class _CompletedTasksViewState extends State<CompletedTasksView> {
               onChanged: (value, index) async {
                 tasks[index!].isDone = value ?? false;
 
-                final fullTasks = PreferencesManager().getString(
-                  'tasks',
-                );
+                final fullTasks = PreferencesManager().getString('tasks');
 
                 if (fullTasks != null) {
                   List<TaskModel> fullTasksList =

@@ -17,11 +17,7 @@ class TasksListViewBuilder extends StatelessWidget {
         : Center(
             child: Text(
               'No Data',
-              style: TextStyle(
-                color: Color(0xffFFFCFC),
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
+              style: Theme.of(context).textTheme.labelLarge,
             ),
           );
   }
