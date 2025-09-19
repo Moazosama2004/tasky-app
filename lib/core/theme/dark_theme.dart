@@ -42,7 +42,6 @@ ThemeData darkTheme = ThemeData(
     elevation: 0.0,
     backgroundColor: Colors.transparent,
   ),
-
   textTheme: TextTheme(
     displaySmall: TextStyle(
       fontWeight: FontWeight.w400,
@@ -95,7 +94,6 @@ ThemeData darkTheme = ThemeData(
       color: Color(0xffFFFCFC),
     ),
   ),
-
   inputDecorationTheme: InputDecorationTheme(
     hintStyle: TextStyle(
       color: Color(0xff6D6D6D),
@@ -120,6 +118,31 @@ ThemeData darkTheme = ThemeData(
   checkboxTheme: CheckboxThemeData(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadiusGeometry.circular(4),
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStateProperty.all(Color(0xff15B86C)),
+      foregroundColor: WidgetStateProperty.all(Color(0xffFFFCFC)),
+      textStyle: WidgetStateProperty.all(
+        TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+          color: Color(0xffffffff),
+        ),
+      ),
+    ),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: Color(0xff15B86C),
+    foregroundColor: Color(0xffFFFCFC),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadiusGeometry.circular(100),
+    ),
+    extendedTextStyle: TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 14,
+      color: Color(0xffffffff),
     ),
   ),
 );

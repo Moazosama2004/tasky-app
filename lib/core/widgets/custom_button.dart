@@ -15,15 +15,10 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Color(0xff15B86C),
-        foregroundColor: Color(0xffFFFCFC),
         fixedSize: Size(MediaQuery.of(context).size.width, 40),
       ),
       onPressed: onPressed,
-      label: Text(
-        label,
-        style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
-      ),
+      label: Text(label),
     );
   }
 }

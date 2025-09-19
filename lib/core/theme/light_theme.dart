@@ -124,4 +124,29 @@ ThemeData lightTheme = ThemeData(
     ),
     side: BorderSide(color: Color(0xffD1DAD6), width: 2),
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStateProperty.all(Color(0xff15B86C)),
+      foregroundColor: WidgetStateProperty.all(Color(0xffFFFCFC)),
+      textStyle: WidgetStateProperty.all(
+        TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+          color: Color(0xffffffff),
+        ),
+      ),
+    ),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: Color(0xff15B86C),
+    foregroundColor: Color(0xffFFFCFC),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadiusGeometry.circular(100),
+    ),
+    extendedTextStyle: TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 14,
+      color: Color(0xffffffff),
+    ),
+  ),
 );
