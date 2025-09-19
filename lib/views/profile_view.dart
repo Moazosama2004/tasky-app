@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
+import 'package:tasky_app/main.dart';
 import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/user_details_view.dart';
 import 'package:tasky_app/views/welcome_view.dart';
@@ -19,11 +20,12 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   UserModel? userModel;
   bool isLoading = true;
-  bool isDarkMode = true;
+  bool? isDarkMode;
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadDarkModeStatus();
   }
 
   Future<void> _loadUserData() async {
@@ -32,6 +34,10 @@ class _ProfileViewState extends State<ProfileView> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  Future<void> _loadDarkModeStatus() async {
+    isDarkMode = PreferencesManager().getBool('isDarkMode');
   }
 
   @override
@@ -182,11 +188,26 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       trailing: Switch(
-                        value: isDarkMode,
-                        onChanged: (value) {
-                          // TODO : IMPLEMENT DARK MODE
-                          isDarkMode = value;
-                          setState(() {});
+                        value: isDarkMode ?? false,
+                        onChanged: (value) async {
+                          log(
+                            'themeNotifier.value -> ${themeNotifier.value}',
+                          );
+                          setState(() {
+                            isDarkMode = value;
+
+                            themeNotifier.value = isDarkMode!
+                                ? ThemeMode.dark
+                                : ThemeMode.light;
+                          });
+
+                          await PreferencesManager().setBool(
+                            'isDarkMode',
+                            isDarkMode!,
+                          );
+                          log(
+                            'themeNotifier.value -> ${themeNotifier.value}',
+                          );
                         },
                       ),
                       title: Text(
