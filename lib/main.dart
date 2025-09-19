@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/dark_theme.dart';
 import 'package:tasky_app/core/theme/light_theme.dart';
+import 'package:tasky_app/core/theme/theme_controller.dart';
 
 import 'package:tasky_app/views/main_view.dart';
 import 'package:tasky_app/views/welcome_view.dart';
-
-ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(
-  ThemeMode.dark,
-);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferencesManager().init();
   bool isVisited = PreferencesManager().getBool('isVisited') ?? false;
-  bool isDarkMode =
-      PreferencesManager().getBool('isDarkMode') ?? false;
-  themeNotifier.value = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  ThemeController.init();
   runApp(TaskyApp(isVisited: isVisited));
 }
 
@@ -27,7 +22,7 @@ class TaskyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
-      valueListenable: themeNotifier,
+      valueListenable: ThemeController.themeNotifier,
       builder: (context, ThemeMode themeMode, Widget? child) =>
           MaterialApp(
             title: 'Tasky',

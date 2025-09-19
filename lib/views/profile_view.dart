@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
+import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/main.dart';
 import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/user_details_view.dart';
@@ -20,12 +21,10 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   UserModel? userModel;
   bool isLoading = true;
-  bool isDarkMode = false;
   @override
   void initState() {
     super.initState();
     _loadUserData();
-    _loadDarkModeStatus();
   }
 
   Future<void> _loadUserData() async {
@@ -36,22 +35,13 @@ class _ProfileViewState extends State<ProfileView> {
     });
   }
 
-  Future<void> _loadDarkModeStatus() async {
-    isDarkMode = PreferencesManager().getBool('isDarkMode')!;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 16,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: isLoading
           ? Center(
-              child: CircularProgressIndicator(
-                color: Color(0xff15B86C),
-              ),
+              child: CircularProgressIndicator(color: Color(0xff15B86C)),
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,9 +90,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           userModel?.username ?? '',
                           style: TextStyle(
@@ -141,9 +129,8 @@ class _ProfileViewState extends State<ProfileView> {
                         final bool result = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => UserDetailsView(
-                              userModel: userModel!,
-                            ),
+                            builder: (context) =>
+                                UserDetailsView(userModel: userModel!),
                           ),
                         );
                         log('result => $result');
@@ -187,26 +174,14 @@ class _ProfileViewState extends State<ProfileView> {
                           BlendMode.srcIn,
                         ),
                       ),
-                      trailing: Switch(
-                        value: isDarkMode,
-                        onChanged: (value) async {
-                          log(
-                            'themeNotifier.value -> ${themeNotifier.value}',
-                          );
-                          setState(() {
-                            isDarkMode = value;
-
-                            themeNotifier.value = isDarkMode
-                                ? ThemeMode.dark
-                                : ThemeMode.light;
-                          });
-
-                          await PreferencesManager().setBool(
-                            'isDarkMode',
-                            isDarkMode,
-                          );
-                          log(
-                            'themeNotifier.value -> ${themeNotifier.value}',
+                      trailing: ValueListenableBuilder<ThemeMode>(
+                        valueListenable: ThemeController.themeNotifier,
+                        builder: (context, value, child) {
+                          return Switch(
+                            value: value == ThemeMode.dark,
+                            onChanged: (value) async {
+                              ThemeController.toggleTheme();
+                            },
                           );
                         },
                       ),
@@ -225,10 +200,7 @@ class _ProfileViewState extends State<ProfileView> {
                       onTap: () async {
                         PreferencesManager().remove('userData');
                         PreferencesManager().remove('tasks');
-                        PreferencesManager().setBool(
-                          'isVisited',
-                          false,
-                        );
+                        PreferencesManager().setBool('isVisited', false);
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
