@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
+import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/add_new_task_view.dart';
@@ -126,12 +127,14 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         IconButton(
                           style: IconButton.styleFrom(
-                            backgroundColor: Color(0xff282828),
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
                             fixedSize: Size(34, 34),
                           ),
                           onPressed: () {},
-                          icon: SvgPicture.asset(
-                            'assets/images/sun.svg',
+                          icon: CustomSvgPicture(
+                            path: 'assets/images/sun.svg',
                             height: 18,
                             width: 18,
                           ),
@@ -154,8 +157,8 @@ class _HomeViewState extends State<HomeView> {
                                 context,
                               ).textTheme.displayLarge,
                             ),
-                            SvgPicture.asset(
-                              'assets/images/wave_hand.svg',
+                            CustomSvgPicture.withoutColorFilter(
+                              path: 'assets/images/sun.svg',
                               width: 32,
                               height: 32,
                             ),

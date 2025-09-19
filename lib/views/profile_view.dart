@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
+import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/main.dart';
 import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/user_details_view.dart';
@@ -79,14 +80,8 @@ class _ProfileViewState extends State<ProfileView> {
                                 backgroundColor: Theme.of(
                                   context,
                                 ).colorScheme.primaryContainer,
-                                child: SvgPicture.asset(
-                                  'assets/images/camera.svg',
-                                  colorFilter: ColorFilter.mode(
-                                    Theme.of(
-                                      context,
-                                    ).colorScheme.secondary,
-                                    BlendMode.srcIn,
-                                  ),
+                                child: CustomSvgPicture(
+                                  path: 'assets/images/camera.svg',
                                 ),
                               ),
                             ),
@@ -131,31 +126,20 @@ class _ProfileViewState extends State<ProfileView> {
                           _loadUserData();
                         }
                       },
-                      leading: SvgPicture.asset(
-                        'assets/images/profile.svg',
-                        colorFilter: ColorFilter.mode(
-                          Theme.of(context).colorScheme.secondary,
-                          BlendMode.srcIn,
-                        ),
+                      leading: CustomSvgPicture(
+                        path: 'assets/images/profile.svg',
                       ),
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
+                      trailing: Icon(
+                        Icons.arrow_forward,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                       title: Text('User Details'),
                     ),
                     SizedBox(width: 16),
                     Divider(),
                     ListTile(
-                      leading: SvgPicture.asset(
-                        'assets/images/moon.svg',
-                        colorFilter: ColorFilter.mode(
-                          Theme.of(context).colorScheme.secondary,
-                          BlendMode.srcIn,
-                        ),
+                      leading: CustomSvgPicture(
+                        path: 'assets/images/moon.svg',
                       ),
                       trailing: ValueListenableBuilder<ThemeMode>(
                         valueListenable: ThemeController.themeNotifier,
@@ -185,20 +169,14 @@ class _ProfileViewState extends State<ProfileView> {
                           (route) => false,
                         );
                       },
-                      leading: SvgPicture.asset(
-                        'assets/images/logout.svg',
-                        colorFilter: ColorFilter.mode(
-                          Theme.of(context).colorScheme.secondary,
-                          BlendMode.srcIn,
-                        ),
+                      leading: CustomSvgPicture(
+                        path: 'assets/images/logout.svg',
                       ),
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
+                      trailing: Icon(
+                        Icons.arrow_forward,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
+
                       title: Text('Log Out'),
                     ),
                   ],

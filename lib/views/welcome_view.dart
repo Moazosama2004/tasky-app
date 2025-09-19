@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_button.dart';
+import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/user_model.dart';
 import 'package:tasky_app/views/home_view.dart';
@@ -21,8 +22,7 @@ class WelcomeView extends StatefulWidget {
 class _WelcomeViewState extends State<WelcomeView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   // TODO DISPOSE CONTROLLERS
-  final TextEditingController nameController =
-      TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +39,13 @@ class _WelcomeViewState extends State<WelcomeView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      'assets/images/logo.svg',
-                      width: 42,
-                      height: 42,
+                    CustomSvgPicture.withoutColorFilter(
+                      path: 'assets/images/logo.svg',
                     ),
                     SizedBox(width: 16),
                     Text(
                       'Tasky',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.displayMedium,
+                      style: Theme.of(context).textTheme.displayMedium,
                     ),
                   ],
                 ),
@@ -61,8 +57,8 @@ class _WelcomeViewState extends State<WelcomeView> {
                       'Welcome To Tasky ',
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
-                    SvgPicture.asset(
-                      'assets/images/wave_hand.svg',
+                    CustomSvgPicture.withoutColorFilter(
+                      path: 'assets/images/wave_hand.svg',
                       width: 28,
                       height: 28,
                     ),
@@ -76,11 +72,12 @@ class _WelcomeViewState extends State<WelcomeView> {
                   ).textTheme.displaySmall!.copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 24),
-                SvgPicture.asset(
-                  'assets/images/welcome.svg',
+                CustomSvgPicture.withoutColorFilter(
+                  path: 'assets/images/welcome.svg',
                   width: 215,
                   height: 200,
                 ),
+
                 SizedBox(height: 28),
                 Form(
                   key: formKey,
@@ -114,9 +111,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                       UserModel userModel = UserModel(
                         username: nameController.text,
                       );
-                      final userEncoded = jsonEncode(
-                        userModel.toJson(),
-                      );
+                      final userEncoded = jsonEncode(userModel.toJson());
                       await PreferencesManager().setString(
                         'userData',
                         userEncoded,
@@ -130,9 +125,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                       nameController.clear();
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Please Enter Full Name.'),
-                        ),
+                        SnackBar(content: Text('Please Enter Full Name.')),
                       );
                     }
                   },
