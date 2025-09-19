@@ -46,9 +46,7 @@ class _HomeViewState extends State<HomeView> {
     final finalTask = PreferencesManager().getString('tasks');
     if (finalTask != null) {
       final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
-      tasks = taskAfterDecoded
-          .map((e) => TaskModel.fromJson(e))
-          .toList();
+      tasks = taskAfterDecoded.map((e) => TaskModel.fromJson(e)).toList();
       _calcPercentage();
 
       setState(() {});
@@ -75,9 +73,7 @@ class _HomeViewState extends State<HomeView> {
           onPressed: () async {
             final bool? result = await Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => AddNewTaskView(),
-              ),
+              MaterialPageRoute(builder: (context) => AddNewTaskView()),
             );
             if (result != null && result) {
               _loadTasks();
@@ -115,8 +111,7 @@ class _HomeViewState extends State<HomeView> {
                               horizontal: 8.0,
                             ),
                             child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Good Evening ,${userModel?.username}',
@@ -154,9 +149,7 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         Text(
                           'Yuhuu ,Your work Is',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.displayLarge,
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
                         Row(
                           children: [
@@ -194,11 +187,7 @@ class _HomeViewState extends State<HomeView> {
                     SizedBox(height: 24),
                     Text(
                       'My Tasks',
-                      style: TextStyle(
-                        color: Color(0xffFFFCFC),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                     SizedBox(height: 16),
                   ],

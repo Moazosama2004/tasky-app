@@ -80,6 +80,11 @@ ThemeData lightTheme = ThemeData(
     ),
 
     labelMedium: TextStyle(color: Colors.black, fontSize: 16),
+    labelLarge: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 20,
+      color: Color(0xff161F1B),
+    ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     hintStyle: TextStyle(

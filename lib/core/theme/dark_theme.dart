@@ -79,6 +79,11 @@ ThemeData darkTheme = ThemeData(
       overflow: TextOverflow.ellipsis,
     ),
 
+    labelLarge: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 20,
+      color: Color(0xffFFFCFC),
+    ),
     labelMedium: TextStyle(color: Colors.white, fontSize: 16),
   ),
 
