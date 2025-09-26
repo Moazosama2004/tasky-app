@@ -8,10 +8,12 @@ class SliverListViewTasksBuilder extends StatelessWidget {
     super.key,
     required this.tasks,
     required this.onChanged,
+    required this.onDelete,
   });
 
   final List<TaskModel> tasks;
   final Function(bool?, int?) onChanged;
+  final Function(int) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class SliverListViewTasksBuilder extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: TaskItem(
+                    onDelete: onDelete,
                     task: tasks[index],
                     onChanged: (value) {
                       onChanged(value, index);

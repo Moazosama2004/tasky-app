@@ -54,6 +54,16 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  _deleteTask(int index) async {
+    tasks.removeWhere((e) => e.id == index);
+    final tasksAfterEncoded = jsonEncode(
+      tasks.map((e) => e.toJson()).toList(),
+    );
+    await PreferencesManager().setString('tasks', tasksAfterEncoded);
+    _calcPercentage();
+    setState(() {});
+  }
+
   void _calcPercentage() {
     totalTasks = tasks.length;
     doneTasks = tasks.where((e) => e.isDone == true).toList().length;
@@ -192,6 +202,9 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               SliverListViewTasksBuilder(
+                onDelete: (int index) {
+                  _deleteTask(index);
+                },
                 tasks: tasks,
                 onChanged: (value, index) {
                   _checkBoxDoneTask(index, value);

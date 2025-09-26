@@ -33,6 +33,26 @@ class _TodoTasksViewState extends State<TodoTasksView> {
     }
   }
 
+  _deleteTask(int id) async {
+    final fullTasks = PreferencesManager().getString('tasks');
+
+    if (fullTasks != null) {
+      List<TaskModel> fullTasksList =
+          (jsonDecode(fullTasks) as List<dynamic>)
+              .map((e) => TaskModel.fromJson(e))
+              .toList();
+
+      fullTasksList.removeWhere((e) => e.id == id);
+      tasks.removeWhere((e) => e.id == id);
+
+      await PreferencesManager().setString(
+        'tasks',
+        jsonEncode(fullTasksList),
+      );
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -72,6 +92,7 @@ class _TodoTasksViewState extends State<TodoTasksView> {
                   setState(() {});
                 }
               },
+              onDelete: (int id) => _deleteTask(id),
             ),
           ),
         ),

@@ -9,10 +9,16 @@ import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 class TaskItem extends StatelessWidget {
-  const TaskItem({super.key, required this.task, required this.onChanged});
+  const TaskItem({
+    super.key,
+    required this.task,
+    required this.onChanged,
+    required this.onDelete,
+  });
 
   final TaskModel task;
   final Function(bool?)? onChanged;
+  final Function(int) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +71,19 @@ class TaskItem extends StatelessWidget {
             ),
             onSelected: (TaskItemActionsEnum? value) async {
               switch (value) {
+                case TaskItemActionsEnum.markAsDone:
+                  {
+                    // TODO : CHANGE STATUS OR TEXT
+                    onChanged!(!task.isDone);
+                    print('$value , markAsDone');
+                    break;
+                  }
                 case TaskItemActionsEnum.edit:
                   print('$value , edit');
                   break;
-                case TaskItemActionsEnum.markAsDone:
-                  print('$value , markAsDone');
-                  break;
+
                 case TaskItemActionsEnum.delete:
-                  await _deleteTaskItem();
+                  onDelete(task.id);
                   print('$value , delete');
                   break;
                 default:
@@ -91,27 +102,5 @@ class TaskItem extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Future<void> _deleteTaskItem() async {
-    final finalTask = PreferencesManager().getString('tasks');
-    if (finalTask != null) {
-      final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
-      List<TaskModel> tasks = taskAfterDecoded
-          .map((e) => TaskModel.fromJson(e))
-          .toList();
-
-      tasks.removeWhere((e) => e.id == task.id);
-
-      // tasks.removeWhere((e) {
-      //   log('e.id => ${e.id} and task.id => ${task.id}');
-      //   if (e.id == task.id) {
-      //     return true;
-      //   }
-      //   return false;
-      // });
-      await PreferencesManager().setString('tasks', jsonEncode(tasks));
-      log(tasks.toString());
-    }
   }
 }

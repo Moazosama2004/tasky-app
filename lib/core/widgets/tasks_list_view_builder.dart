@@ -7,13 +7,19 @@ class TasksListViewBuilder extends StatelessWidget {
     super.key,
     required this.tasks,
     required this.onChanged,
+    required this.onDelete,
   });
   final List<TaskModel> tasks;
   final Function(bool?, int?) onChanged;
+  final Function(int) onDelete;
   @override
   Widget build(BuildContext context) {
     return tasks.isNotEmpty
-        ? TasksListView(tasks: tasks, onChanged: onChanged)
+        ? TasksListView(
+            tasks: tasks,
+            onChanged: onChanged,
+            onDelete: onDelete,
+          )
         : Center(
             child: Text(
               'No Data',

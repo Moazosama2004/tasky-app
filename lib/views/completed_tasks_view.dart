@@ -34,6 +34,26 @@ class _CompletedTasksViewState extends State<CompletedTasksView> {
     }
   }
 
+  _deleteTask(int id) async {
+    final fullTasks = PreferencesManager().getString('tasks');
+
+    if (fullTasks != null) {
+      List<TaskModel> fullTasksList =
+          (jsonDecode(fullTasks) as List<dynamic>)
+              .map((e) => TaskModel.fromJson(e))
+              .toList();
+
+      fullTasksList.removeWhere((e) => e.id == id);
+      tasks.removeWhere((e) => e.id == id);
+
+      await PreferencesManager().setString(
+        'tasks',
+        jsonEncode(fullTasksList),
+      );
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -73,6 +93,7 @@ class _CompletedTasksViewState extends State<CompletedTasksView> {
                   setState(() {});
                 }
               },
+              onDelete: (int id) => _deleteTask(id),
             ),
           ),
         ),
