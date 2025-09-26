@@ -1,6 +1,6 @@
 enum TaskItemActionsEnum {
+  markAsDone(name: "Mark As Done"),
   edit(name: "Edit"),
-  markAsRead(name: "Mark As Read"),
   delete(name: "Delete");
 
   final String name;

@@ -9,16 +9,10 @@ import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 class TaskItem extends StatelessWidget {
-  const TaskItem({
-    super.key,
-    required this.task,
-    required this.onChanged,
-    required this.onDelete,
-  });
+  const TaskItem({super.key, required this.task, required this.onChanged});
 
   final TaskModel task;
   final Function(bool?)? onChanged;
-  final Future<Function()> onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +68,8 @@ class TaskItem extends StatelessWidget {
                 case TaskItemActionsEnum.edit:
                   print('$value , edit');
                   break;
-                case TaskItemActionsEnum.markAsRead:
-                  print('$value , markAsRead');
+                case TaskItemActionsEnum.markAsDone:
+                  print('$value , markAsDone');
                   break;
                 case TaskItemActionsEnum.delete:
                   await _deleteTaskItem();
