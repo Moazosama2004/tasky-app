@@ -136,6 +136,12 @@ ThemeData darkTheme = ThemeData(
       ),
     ),
   ),
+
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: WidgetStateProperty.all(Color(0xffFFFCFC)),
+    ),
+  ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: Color(0xff15B86C),
     foregroundColor: Color(0xffFFFCFC),

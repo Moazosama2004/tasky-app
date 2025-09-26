@@ -83,7 +83,34 @@ class TaskItem extends StatelessWidget {
                   break;
 
                 case TaskItemActionsEnum.delete:
-                  onDelete(task.id);
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Delete Task'),
+                      content: Text(
+                        'Are you sure you want to delete this task ',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            onDelete(task.id);
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.red,
+                          ),
+                          child: Text('Delete'),
+                        ),
+                      ],
+                    ),
+                  );
+
                   print('$value , delete');
                   break;
                 default:
