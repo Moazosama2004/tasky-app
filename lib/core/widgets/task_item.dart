@@ -1,13 +1,24 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:tasky_app/core/enums/task_item_actions_enum.dart';
+import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 class TaskItem extends StatelessWidget {
-  const TaskItem({super.key, required this.task, required this.onChanged});
+  const TaskItem({
+    super.key,
+    required this.task,
+    required this.onChanged,
+    required this.onDelete,
+  });
 
   final TaskModel task;
   final Function(bool?)? onChanged;
+  final Future<Function()> onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -51,33 +62,62 @@ class TaskItem extends StatelessWidget {
               ],
             ),
           ),
-          PopupMenuButton<String>(
+          PopupMenuButton<TaskItemActionsEnum>(
             icon: Icon(
               Icons.more_vert,
               color: ThemeController.isDark()
                   ? (task.isDone ? Color(0xffA0A0A0) : Color(0xffFFFCFC))
                   : (task.isDone ? Color(0xff6A6A6A) : Color(0xff3A4640)),
             ),
-            onSelected: (String? value) {
-              if (value == 'edit') {
-                print('$value , edit');
-              } else if (value == 'delete') {
-                print('$value , delete');
+            onSelected: (TaskItemActionsEnum? value) async {
+              switch (value) {
+                case TaskItemActionsEnum.edit:
+                  print('$value , edit');
+                  break;
+                case TaskItemActionsEnum.markAsRead:
+                  print('$value , markAsRead');
+                  break;
+                case TaskItemActionsEnum.delete:
+                  await _deleteTaskItem();
+                  print('$value , delete');
+                  break;
+                default:
+                  print('Something Wrong..');
               }
             },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'edit',
-                child: Text('Edit', style: TextStyle(fontSize: 16)),
-              ),
-              PopupMenuItem(
-                value: 'delete',
-                child: Text('Delete', style: TextStyle(fontSize: 16)),
-              ),
-            ],
+            itemBuilder: (context) => TaskItemActionsEnum.values
+                .map(
+                  (e) => PopupMenuItem(
+                    value: e,
+                    child: Text(e.name, style: TextStyle(fontSize: 16)),
+                  ),
+                )
+                .toList(),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _deleteTaskItem() async {
+    final finalTask = PreferencesManager().getString('tasks');
+    if (finalTask != null) {
+      final taskAfterDecoded = jsonDecode(finalTask) as List<dynamic>;
+      List<TaskModel> tasks = taskAfterDecoded
+          .map((e) => TaskModel.fromJson(e))
+          .toList();
+
+      tasks.removeWhere((e) => e.id == task.id);
+
+      // tasks.removeWhere((e) {
+      //   log('e.id => ${e.id} and task.id => ${task.id}');
+      //   if (e.id == task.id) {
+      //     return true;
+      //   }
+      //   return false;
+      // });
+      await PreferencesManager().setString('tasks', jsonEncode(tasks));
+      log(tasks.toString());
+    }
   }
 }
