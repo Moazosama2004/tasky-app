@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:tasky_app/core/enums/task_item_actions_enum.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
+import 'package:tasky_app/core/widgets/custom_button.dart';
 import 'package:tasky_app/core/widgets/custom_check_box.dart';
+import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/task_model.dart';
 
 class TaskItem extends StatelessWidget {
@@ -72,47 +74,14 @@ class TaskItem extends StatelessWidget {
             onSelected: (TaskItemActionsEnum? value) async {
               switch (value) {
                 case TaskItemActionsEnum.markAsDone:
-                  {
-                    // TODO : CHANGE STATUS OR TEXT
-                    onChanged!(!task.isDone);
-                    print('$value , markAsDone');
-                    break;
-                  }
+
+                  // TODO : CHANGE STATUS OR TEXT
+                  onChanged!(!task.isDone);
+
                 case TaskItemActionsEnum.edit:
-                  print('$value , edit');
-                  break;
-
+                  await _showModalBottomSheet(context);
                 case TaskItemActionsEnum.delete:
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('Delete Task'),
-                      content: Text(
-                        'Are you sure you want to delete this task ',
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            onDelete(task.id);
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.red,
-                          ),
-                          child: Text('Delete'),
-                        ),
-                      ],
-                    ),
-                  );
-
-                  print('$value , delete');
-                  break;
+                  await _showDeleteDialog(context);
                 default:
                   print('Something Wrong..');
               }
@@ -125,6 +94,124 @@ class TaskItem extends StatelessWidget {
                   ),
                 )
                 .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<dynamic> _showModalBottomSheet(BuildContext context) {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    TextEditingController taskNameController = TextEditingController(
+      text: task.taskName,
+    );
+    TextEditingController taskDescriptionController =
+        TextEditingController(text: task.taskDescription);
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Container(
+                  height: 5,
+                  width: 50,
+                  // alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(500),
+                    color: Color(0xff6D6D6D).withAlpha(100),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              CustomTextFormField(
+                title: 'Task Name',
+                hintText: 'Finish UI design for login screen',
+                controller: taskNameController,
+                validator: (value) {
+                  if (value?.trim().isEmpty ?? false || value == null) {
+                    return 'Please Enter Task Name';
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              SizedBox(height: 20.0),
+
+              CustomTextFormField(
+                title: 'Task Description',
+                hintText:
+                    'Finish onboarding UI and hand off to devs by Thursday.',
+                controller: taskDescriptionController,
+                validator: (value) {
+                  if (value?.trim().isEmpty ?? false || value == null) {
+                    return 'Please Enter Task Name';
+                  } else {
+                    return null;
+                  }
+                },
+                maxLines: 5,
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'High Priority',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+
+                  // Switch(
+                  //   value: isHighPriority,
+                  //   onChanged: (value) {
+                  //     isHighPriority = value;
+                  //     setState(() {});
+                  //   },
+                  // ),
+                ],
+              ),
+              Spacer(),
+              CustomButton(
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    Navigator.pop(context);
+                  }
+                },
+                label: 'Edit Task',
+                icon: Icon(Icons.edit),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> _showDeleteDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Delete Task'),
+        content: Text('Are you sure you want to delete this task '),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              onDelete(task.id);
+            },
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text('Delete'),
           ),
         ],
       ),

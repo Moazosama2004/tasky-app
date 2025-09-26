@@ -136,6 +136,7 @@ ThemeData darkTheme = ThemeData(
       ),
     ),
   ),
+  splashFactory: NoSplash.splashFactory,
 
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(

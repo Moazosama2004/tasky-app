@@ -157,7 +157,6 @@ ThemeData lightTheme = ThemeData(
       color: Color(0xffffffff),
     ),
   ),
-
   listTileTheme: ListTileThemeData(
     contentPadding: EdgeInsets.zero,
     titleTextStyle: TextStyle(
