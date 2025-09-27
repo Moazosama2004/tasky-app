@@ -70,6 +70,11 @@ class _CompletedTasksViewState extends State<CompletedTasksView> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: TasksListViewBuilder(
+              onUpdate: (bool status) {
+                if (status) {
+                  setState(() {});
+                }
+              },
               tasks: tasks,
               onChanged: (value, index) async {
                 tasks[index!].isDone = value ?? false;

@@ -2,9 +2,9 @@ import 'dart:developer';
 
 class TaskModel {
   final int id;
-  final String taskName;
-  final String? taskDescription;
-  final bool isHighPriority;
+  String taskName;
+  String? taskDescription;
+  bool isHighPriority;
   bool isDone;
 
   TaskModel({
@@ -34,5 +34,10 @@ class TaskModel {
       'isHighPriority': isHighPriority,
       'isDone': isDone,
     };
+  }
+
+  @override
+  String toString() {
+    return 'TaskModel(id: $id, taskName: $taskName, taskDescription: $taskDescription, isHighPriority: $isHighPriority, isDone: $isDone)';
   }
 }

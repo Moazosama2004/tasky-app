@@ -16,11 +16,13 @@ class TaskItem extends StatelessWidget {
     required this.task,
     required this.onChanged,
     required this.onDelete,
+    required this.onUpdate,
   });
 
   final TaskModel task;
   final Function(bool?)? onChanged;
   final Function(int) onDelete;
+  final Function(bool) onUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,9 @@ class TaskItem extends StatelessWidget {
                   onChanged!(!task.isDone);
 
                 case TaskItemActionsEnum.edit:
-                  await _showModalBottomSheet(context);
+                  final result = await _showModalBottomSheet(context);
+                  onUpdate(result ?? false);
+                  log('result => $result');
                 case TaskItemActionsEnum.delete:
                   await _showDeleteDialog(context);
                 default:
@@ -100,96 +104,127 @@ class TaskItem extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _showModalBottomSheet(BuildContext context) {
+  Future<bool?> _showModalBottomSheet(BuildContext context) async {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController taskNameController = TextEditingController(
       text: task.taskName,
     );
     TextEditingController taskDescriptionController =
         TextEditingController(text: task.taskDescription);
-    return showModalBottomSheet(
+
+    bool isHighPriority = task.isHighPriority;
+    return await showModalBottomSheet<bool?>(
       context: context,
-      builder: (context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Center(
-                child: Container(
-                  height: 5,
-                  width: 50,
-                  // alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(500),
-                    color: Color(0xff6D6D6D).withAlpha(100),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => Padding(
+          padding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Container(
+                    height: 5,
+                    width: 50,
+                    // alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(500),
+                      color: Color(0xff6D6D6D).withAlpha(100),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 16),
-              CustomTextFormField(
-                title: 'Task Name',
-                hintText: 'Finish UI design for login screen',
-                controller: taskNameController,
-                validator: (value) {
-                  if (value?.trim().isEmpty ?? false || value == null) {
-                    return 'Please Enter Task Name';
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              SizedBox(height: 20.0),
-
-              CustomTextFormField(
-                title: 'Task Description',
-                hintText:
-                    'Finish onboarding UI and hand off to devs by Thursday.',
-                controller: taskDescriptionController,
-                validator: (value) {
-                  if (value?.trim().isEmpty ?? false || value == null) {
-                    return 'Please Enter Task Name';
-                  } else {
-                    return null;
-                  }
-                },
-                maxLines: 5,
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'High Priority',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-
-                  // Switch(
-                  //   value: isHighPriority,
-                  //   onChanged: (value) {
-                  //     isHighPriority = value;
-                  //     setState(() {});
-                  //   },
-                  // ),
-                ],
-              ),
-              Spacer(),
-              CustomButton(
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    Navigator.pop(context);
-                  }
-                },
-                label: 'Edit Task',
-                icon: Icon(Icons.edit),
-              ),
-            ],
+                SizedBox(height: 16),
+                CustomTextFormField(
+                  title: 'Task Name',
+                  hintText: 'Finish UI design for login screen',
+                  controller: taskNameController,
+                  validator: (value) {
+                    if (value?.trim().isEmpty ?? false || value == null) {
+                      return 'Please Enter Task Name';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                SizedBox(height: 20.0),
+                CustomTextFormField(
+                  title: 'Task Description',
+                  hintText:
+                      'Finish onboarding UI and hand off to devs by Thursday.',
+                  controller: taskDescriptionController,
+                  validator: (value) {
+                    if (value?.trim().isEmpty ?? false || value == null) {
+                      return 'Please Enter Task Name';
+                    } else {
+                      return null;
+                    }
+                  },
+                  maxLines: 5,
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'High Priority',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Switch(
+                      value: isHighPriority,
+                      onChanged: (value) {
+                        isHighPriority = value;
+                        setState(() {});
+                      },
+                    ),
+                  ],
+                ),
+                Spacer(),
+                CustomButton(
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      task.taskName = taskNameController.text;
+                      task.taskDescription =
+                          taskDescriptionController.text;
+                      task.isHighPriority = isHighPriority;
+                      await _editTask(taskModel: task);
+                      Navigator.pop(context, true);
+                    }
+                  },
+                  label: 'Edit Task',
+                  icon: Icon(Icons.edit),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _editTask({required TaskModel taskModel}) async {
+    final allTasks = PreferencesManager().getString('tasks');
+    if (allTasks != null) {
+      //  1 - get tasks
+      List<TaskModel> fullTasksList =
+          (jsonDecode(allTasks) as List<dynamic>)
+              .map((e) => TaskModel.fromJson(e))
+              .toList();
+      log('edit tasks before ${fullTasksList.toString()}');
+      // 2 - edit task
+      // 2 - edit (استبدال العنصر)
+      final taskIndex =
+          fullTasksList.indexWhere((e) => e.id == taskModel.id);
+      if (taskIndex != -1) {
+        fullTasksList[taskIndex] = taskModel;
+      }
+      // 3 - set it
+      log('edit tasks after ${fullTasksList.toString()}');
+      await PreferencesManager().setString('tasks',
+          jsonEncode((fullTasksList).map((e) => e.toJson()).toList()));
+    }
   }
 
   Future<dynamic> _showDeleteDialog(BuildContext context) {

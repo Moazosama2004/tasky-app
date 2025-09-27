@@ -93,6 +93,11 @@ class _TodoTasksViewState extends State<TodoTasksView> {
                 }
               },
               onDelete: (int id) => _deleteTask(id),
+              onUpdate: (bool status) {
+                if (status) {
+                  setState(() {});
+                }
+              },
             ),
           ),
         ),

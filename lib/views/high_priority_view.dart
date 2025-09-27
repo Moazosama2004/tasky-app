@@ -61,6 +61,11 @@ class _HighPriorityViewState extends State<HighPriorityView> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: TasksListViewBuilder(
+          onUpdate: (bool status) {
+            if (status) {
+              setState(() {});
+            }
+          },
           tasks: highPrioritytasks,
           onChanged: (value, index) async {
             highPrioritytasks[index!].isDone = value ?? false;

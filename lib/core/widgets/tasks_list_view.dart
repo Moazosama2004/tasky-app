@@ -9,10 +9,12 @@ class TasksListView extends StatelessWidget {
     required this.tasks,
     required this.onChanged,
     required this.onDelete,
+    required this.onUpdate,
   });
   final List<TaskModel> tasks;
   final Function(bool?, int?) onChanged;
   final Function(int) onDelete;
+  final Function(bool) onUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class TasksListView extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: TaskItem(
+            onUpdate: onUpdate,
             onDelete: onDelete,
             task: tasks[index],
             onChanged: (bool? value) {

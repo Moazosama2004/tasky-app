@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -72,6 +72,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    log('rebuild');
     return Scaffold(
       floatingActionButton: SizedBox(
         height: 44,
@@ -202,6 +203,11 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               SliverListViewTasksBuilder(
+                onUpdate: (bool status) {
+                  if (status) {
+                    setState(() {});
+                  }
+                },
                 onDelete: (int index) {
                   _deleteTask(index);
                 },
