@@ -67,13 +67,12 @@ class _ProfileViewState extends State<ProfileView> {
                               'assets/images/profile_avatar.png',
                             ),
                           ),
-
                           Positioned(
                             right: 0,
                             bottom: 0,
                             child: GestureDetector(
                               onTap: () {
-                                log('CLICKED');
+                                _showModalBottomSheet(context);
                               },
                               child: CircleAvatar(
                                 radius: 17,
@@ -176,13 +175,42 @@ class _ProfileViewState extends State<ProfileView> {
                         Icons.arrow_forward,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
-
                       title: Text('Log Out'),
                     ),
                   ],
                 ),
               ],
             ),
+    );
+  }
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+            initialChildSize: 0.75,
+            maxChildSize: 0.79,
+            expand: false,
+            builder: (context, scrollController) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 8),
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: 20,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 40,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              );
+            });
+      },
     );
   }
 }
