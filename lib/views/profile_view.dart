@@ -184,32 +184,20 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  void _showModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  void _showModalBottomSheet(BuildContext context) async {
+    // final selectedDate = await showDatePicker(
+    //   context: context,
+    //   initialDate: DateTime.now(),
+    //   firstDate: DateTime(2020),
+    //   lastDate: DateTime.now().add(Duration(days: 360)),
+
+    // );
+    // print(selectedDate);
+
+    final selectedTime = await showTimePicker(
       context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return ConstrainedBox(
-          constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.75,
-              minHeight: 50),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 40,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: 40,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
+      initialTime: TimeOfDay(hour: 12, minute: 50),
     );
+    print(selectedTime);
   }
 }
