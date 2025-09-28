@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
@@ -22,6 +24,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   UserModel? userModel;
   bool isLoading = true;
+  XFile? selectedImage;
   @override
   void initState() {
     super.initState();
@@ -63,16 +66,24 @@ class _ProfileViewState extends State<ProfileView> {
                         children: [
                           CircleAvatar(
                             radius: 42.5,
-                            backgroundImage: AssetImage(
-                              'assets/images/profile_avatar.png',
-                            ),
+                            backgroundImage: selectedImage == null
+                                ? AssetImage(
+                                    'assets/images/profile_avatar.png',
+                                  )
+                                : FileImage(File(selectedImage!.path)),
                           ),
                           Positioned(
                             right: 0,
                             bottom: 0,
                             child: GestureDetector(
-                              onTap: () {
-                                _showModalBottomSheet(context);
+                              onTap: () async {
+                                _showImageSourceDialog(context, (
+                                  XFile file,
+                                ) {
+                                  setState(() {
+                                    selectedImage = file;
+                                  });
+                                });
                               },
                               child: CircleAvatar(
                                 radius: 17,
@@ -184,20 +195,61 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  void _showModalBottomSheet(BuildContext context) async {
-    // final selectedDate = await showDatePicker(
-    //   context: context,
-    //   initialDate: DateTime.now(),
-    //   firstDate: DateTime(2020),
-    //   lastDate: DateTime.now().add(Duration(days: 360)),
-
-    // );
-    // print(selectedDate);
-
-    final selectedTime = await showTimePicker(
+  _showImageSourceDialog(
+    BuildContext context,
+    Function(XFile) onSelectedImage,
+  ) async {
+    final picker = ImagePicker();
+    showDialog(
       context: context,
-      initialTime: TimeOfDay(hour: 12, minute: 50),
+      builder: (context) {
+        return SimpleDialog(
+          title: Text(
+            'Choose Image Source :',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          children: [
+            SimpleDialogOption(
+              onPressed: () async {
+                Navigator.pop(context);
+                XFile? image = await picker.pickImage(
+                  source: ImageSource.camera,
+                );
+                if (image != null) {
+                  onSelectedImage(image);
+                }
+              },
+              padding: EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Icon(Icons.camera_alt),
+                  SizedBox(width: 8),
+                  Text('Camera'),
+                ],
+              ),
+            ),
+            SimpleDialogOption(
+              onPressed: () async {
+                Navigator.pop(context);
+                XFile? image = await picker.pickImage(
+                  source: ImageSource.gallery,
+                );
+                if (image != null) {
+                  onSelectedImage(image);
+                }
+              },
+              padding: EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Icon(Icons.image),
+                  SizedBox(width: 8),
+                  Text('Gallery'),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
-    print(selectedTime);
   }
 }
