@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -108,9 +109,11 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         CircleAvatar(
                           radius: 21,
-                          backgroundImage: AssetImage(
-                            'assets/images/profile_avatar.png',
-                          ),
+                          backgroundImage: userModel!.profileImage == null
+                              ? AssetImage(
+                                  'assets/images/profile_avatar.png',
+                                )
+                              : FileImage(File(userModel!.profileImage!)),
                         ),
                         Expanded(
                           child: Padding(

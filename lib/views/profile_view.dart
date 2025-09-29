@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
@@ -24,7 +25,6 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   UserModel? userModel;
   bool isLoading = true;
-  XFile? selectedImage;
   @override
   void initState() {
     super.initState();
@@ -34,6 +34,7 @@ class _ProfileViewState extends State<ProfileView> {
   Future<void> _loadUserData() async {
     final userData = PreferencesManager().getString('userData');
     userModel = UserModel.fromJson(jsonDecode(userData!));
+    log(userModel.toString());
     setState(() {
       isLoading = false;
     });
@@ -66,11 +67,14 @@ class _ProfileViewState extends State<ProfileView> {
                         children: [
                           CircleAvatar(
                             radius: 42.5,
-                            backgroundImage: selectedImage == null
+                            backgroundImage:
+                                userModel!.profileImage == null
                                 ? AssetImage(
                                     'assets/images/profile_avatar.png',
                                   )
-                                : FileImage(File(selectedImage!.path)),
+                                : FileImage(
+                                    File(userModel!.profileImage!),
+                                  ),
                           ),
                           Positioned(
                             right: 0,
@@ -80,9 +84,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 _showImageSourceDialog(context, (
                                   XFile file,
                                 ) {
-                                  setState(() {
-                                    selectedImage = file;
-                                  });
+                                  setState(() {});
                                 });
                               },
                               child: CircleAvatar(
@@ -215,7 +217,9 @@ class _ProfileViewState extends State<ProfileView> {
                 XFile? image = await picker.pickImage(
                   source: ImageSource.camera,
                 );
+                // Save image
                 if (image != null) {
+                  await _saveImageData(image);
                   onSelectedImage(image);
                 }
               },
@@ -235,6 +239,7 @@ class _ProfileViewState extends State<ProfileView> {
                   source: ImageSource.gallery,
                 );
                 if (image != null) {
+                  await _saveImageData(image);
                   onSelectedImage(image);
                 }
               },
@@ -251,5 +256,19 @@ class _ProfileViewState extends State<ProfileView> {
         );
       },
     );
+  }
+
+  Future<void> _saveImageData(XFile image) async {
+    final Directory appDocumentsDir =
+        await getApplicationDocumentsDirectory();
+    log(appDocumentsDir.path);
+    final newFile = await File(
+      image.path,
+    ).copy('${appDocumentsDir.path}/${image.name}');
+    // final userData = PreferencesManager().getString('userData');
+    // userModel = UserModel.fromJson(jsonDecode(userData!));
+    userModel!.profileImage = newFile.path;
+    final finalUser = jsonEncode(userModel!.toJson());
+    await PreferencesManager().setString('userData', finalUser);
   }
 }
