@@ -12,8 +12,8 @@ import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/main.dart';
 import 'package:tasky_app/models/user_model.dart';
-import 'package:tasky_app/views/user_details_view.dart';
-import 'package:tasky_app/views/welcome_view.dart';
+import 'package:tasky_app/features/profile/views/user_details_view.dart';
+import 'package:tasky_app/features/welcome/views/welcome_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});

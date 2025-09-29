@@ -9,7 +9,7 @@ import 'package:tasky_app/core/services/preferences_manager.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/models/user_model.dart';
-import 'package:tasky_app/views/add_new_task_view.dart';
+import 'package:tasky_app/features/add_task/views/add_new_task_view.dart';
 import 'package:tasky_app/core/widgets/archieved_tasks.dart';
 import 'package:tasky_app/core/widgets/high_priority_tasks.dart';
 import 'package:tasky_app/core/widgets/sliver_list_view_tasks_builder.dart';

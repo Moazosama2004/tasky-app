@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tasky_app/models/task_model.dart';
 import 'package:tasky_app/core/widgets/tasks_list_view_builder.dart';
 
-import '../core/services/preferences_manager.dart';
+import '../../../core/services/preferences_manager.dart';
 
 class HighPriorityView extends StatefulWidget {
   const HighPriorityView({super.key});

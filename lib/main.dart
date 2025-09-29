@@ -4,8 +4,8 @@ import 'package:tasky_app/core/theme/dark_theme.dart';
 import 'package:tasky_app/core/theme/light_theme.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 
-import 'package:tasky_app/views/main_view.dart';
-import 'package:tasky_app/views/welcome_view.dart';
+import 'package:tasky_app/features/navigation/views/main_view.dart';
+import 'package:tasky_app/features/welcome/views/welcome_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

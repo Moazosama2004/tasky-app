@@ -9,8 +9,8 @@ import 'package:tasky_app/core/widgets/custom_button.dart';
 import 'package:tasky_app/core/widgets/custom_svg_picture.dart';
 import 'package:tasky_app/core/widgets/custom_text_form_field.dart';
 import 'package:tasky_app/models/user_model.dart';
-import 'package:tasky_app/views/home_view.dart';
-import 'package:tasky_app/views/main_view.dart';
+import 'package:tasky_app/features/home/views/home_view.dart';
+import 'package:tasky_app/features/navigation/views/main_view.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tasky_app/core/theme/theme_controller.dart';
 import 'package:tasky_app/core/widgets/custom_check_box.dart';
 import 'package:tasky_app/models/task_model.dart';
-import 'package:tasky_app/views/high_priority_view.dart';
+import 'package:tasky_app/features/tasks/views/high_priority_view.dart';
 
 class HighPriorityTasks extends StatelessWidget {
   const HighPriorityTasks({
